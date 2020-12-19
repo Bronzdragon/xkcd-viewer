@@ -1,5 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import fetchComicInfo, { xkcdInfo } from '../XKCDApiApi'
 
-export default function Overview() {
-    return <div>Overview!</div>
+type OverviewProps = {
+    onOpenComic?: (id: number) => void
+    latestComic: number
 }
+
+const Overview: React.FC<OverviewProps> = ({onOpenComic, latestComic}) => {
+    return <div onScroll={(event) => console.log("Scrolling!")}>Last comic: <a onClick={() => { if (onOpenComic) onOpenComic(latestComic) } }>{latestComic}</a>!</div>
+}
+export default Overview

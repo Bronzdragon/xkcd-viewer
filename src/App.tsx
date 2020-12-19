@@ -5,18 +5,28 @@ import Overview from './components/overview';
 import DetailView from './components/detail_view';
 
 function App() {
-  const [openComic, setOpenComic] = useState<number>(0);
-  const [comicInfo, setComicInfo] = useState<xkcdInfo|null>(null);
-  useEffect(() => {
-    fetchComicInfo().then(result => setComicInfo(result))
-  }, [])
+    const [mostRecentComic, setMostRecentComic] = useState(0);
+    const [openComic, setOpenComic] = useState(0);
+    // const [comicInfo, setComicInfo] = useState<xkcdInfo | null>(null);
+    useEffect(() => {
+        fetchComicInfo().then(result => setMostRecentComic(result.number))
+    }, [])
 
-  return (
-    <div className="App" onClick={() => setOpenComic((comic) => comic + 1)}>
-      <h1>{comicInfo ? comicInfo.num : ''} – {comicInfo ? comicInfo.title : "Loading comic..."}</h1>
-      {openComic > 0 ? <DetailView number={openComic}></DetailView> : <Overview></Overview>}
-    </div>
-  );
+    let page: React.ReactNode;
+
+    if(!openComic){
+        return <div> You have no specific open comic.
+            <Overview onOpenComic={setOpenComic} latestComic={mostRecentComic}></Overview>
+        </div>
+    } else {
+        return <DetailView
+            goBackHome={() => setOpenComic(0)}
+            number={openComic}
+            lastComic={mostRecentComic}
+            nextComic={() => setOpenComic(num => num + 1)}
+            previousComic={() => setOpenComic(num => Math.max(1, num - 1))}
+        ></DetailView>
+    }
 }
 
 export default App;

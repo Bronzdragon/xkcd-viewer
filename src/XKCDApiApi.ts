@@ -1,11 +1,10 @@
-import { promises } from 'dns';
 import fetch from 'node-fetch';
 
 const getUrl = (comicId?: number) => `https://cors-anywhere.herokuapp.com/https://xkcd.com/${comicId ? `${comicId}/` : ''}info.0.json`
 
 
 export type xkcdInfo = {
-    num: number,
+    number: number,
 
     date: Date,
 
@@ -20,22 +19,23 @@ export type xkcdInfo = {
 
 const jsonToXKCD = (json: string): xkcdInfo => {
     const obj = JSON.parse(json);
-    const {year, month, day, ...rest} = obj
+    const { year, month, day, num, ...rest } = obj
 
     return {
         date: new Date(Number(year), Number(month) - 1, Number(day)),
-        ...rest
+        number: num,
+        ...rest,
     }
 }
 
-const getPageInfo = async (comicId?: number): Promise<xkcdInfo> => {
+const getPageInfo = async (comicId?: number, preload = false): Promise<xkcdInfo> => {
     const url = getUrl(comicId)
     const storedData = localStorage.getItem(url)
     if (storedData) {
         return jsonToXKCD(storedData)
     }
 
-    const response = await fetch(getUrl(comicId))
+    const response = await fetch(url)
 
     if (!response.ok) {
         throw new Error("Comic info could not be gotten." +  response.statusText)
@@ -44,7 +44,13 @@ const getPageInfo = async (comicId?: number): Promise<xkcdInfo> => {
     const result = await response.text()
     localStorage.setItem(url, result)
 
-    return jsonToXKCD(result)
+    const xkcdInfo = jsonToXKCD(result);
+
+    if (preload) {
+        preloadImage(xkcdInfo.img)
+    }
+
+    return xkcdInfo
 }
 export default getPageInfo
 
