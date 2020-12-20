@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Thumbnail from './Thumbnail';
 
 type OverviewProps = {
@@ -7,8 +7,13 @@ type OverviewProps = {
 }
 
 const Overview: React.FC<OverviewProps> = ({onOpenComic, latestComic}) => {
+    if(latestComic < 1){
+        return <div>Loading latest comic...</div>
+    }
+
+
     return <div onScroll={(event) => console.log("Scrolling!", event)}>
-        Most recent comic: <a onClick={() => { if (onOpenComic) onOpenComic(latestComic) } }>{latestComic}</a>!
+        Most recent comic: <span onClick={() => { if (onOpenComic) onOpenComic(latestComic) } }>{latestComic}</span>!
         <div>
             <Thumbnail onClick={() => { if (onOpenComic) onOpenComic(latestComic) } } comicId={latestComic} />
             <Thumbnail onClick={() => { if (onOpenComic) onOpenComic(latestComic-1) } } comicId={latestComic-1} />

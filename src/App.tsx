@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import fetchComicInfo, { xkcdInfo } from './XKCDApiApi'
+import fetchComicInfo from './XKCDApiApi'
 import Overview from './components/overview';
 import DetailView from './components/detail_view';
 
@@ -11,8 +11,6 @@ function App() {
     useEffect(() => {
         fetchComicInfo().then(result => setMostRecentComic(result.number))
     }, [])
-
-    let page: React.ReactNode;
 
     if(!openComic){
         return <div> You have no specific open comic.
