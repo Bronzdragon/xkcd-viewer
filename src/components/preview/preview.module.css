@@ -1,0 +1,23 @@
+.container {
+    --element-size: calc(50px + 15vw);
+    width: var(--element-size);
+    border: solid 2px grey;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.container img {
+    height: var(--element-size);
+}
+
+.throbber {
+    height: var(--element-size);
+    width: var(--element-size);
+}
+
+.comicLabel {
+    
+}

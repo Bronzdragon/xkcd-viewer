@@ -1,9 +1,10 @@
-.thumbnailContainer {
+.container {
     border: solid red;
+    /* padding: 10px; */
     display: flex;
-    padding: 10px;
+    flex-wrap: wrap;
 }
 
-.thumbnail {
-    margin: 10px;
+.container * {
+    margin: 0 10px;
 }
