@@ -12,10 +12,13 @@ function App() {
         fetchComicInfo().then(result => setMostRecentComic(result.number))
     }, [])
 
-    if(!openComic){
-        return <div> You have no specific open comic.
-            <Overview onOpenComic={setOpenComic} latestComic={mostRecentComic}></Overview>
-        </div>
+    if (mostRecentComic === 0) {
+        // No comics loaded yet...
+        return <div>...loading</div>
+    }
+
+    if (!openComic) {
+        return <Overview onOpenComic={setOpenComic} latestComic={mostRecentComic} />
     } else {
         return <DetailView
             goBackHome={() => setOpenComic(0)}
@@ -23,7 +26,7 @@ function App() {
             lastComic={mostRecentComic}
             nextComic={() => setOpenComic(num => num + 1)}
             previousComic={() => setOpenComic(num => Math.max(1, num - 1))}
-        ></DetailView>
+        />
     }
 }
 

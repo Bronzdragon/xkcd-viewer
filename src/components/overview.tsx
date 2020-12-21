@@ -7,12 +7,9 @@ type OverviewProps = {
     latestComic: number
 }
 
-const Overview: React.FC<OverviewProps> = ({onOpenComic, latestComic}) => {
-    if(latestComic < 1){
-        return <div>Loading latest comic...</div>
-    }
-
-    return <div onScroll={(event) => console.log("Scrolling!", event)}>
+const Overview: React.FC<OverviewProps> = ({ onOpenComic, latestComic }) =>
+    
+    <div onScroll={(event) => console.log("Scrolling!", event)}>
         Most recent comic: {latestComic}!
         <div className={styles.thumbnailContainer}>
             <Thumbnail className={styles.thumbnail} onClick={() => { if (onOpenComic) onOpenComic(latestComic) }} comicId={latestComic} />
@@ -21,6 +18,6 @@ const Overview: React.FC<OverviewProps> = ({onOpenComic, latestComic}) => {
             <Thumbnail onClick={() => { if (onOpenComic) onOpenComic(latestComic - 3) }} comicId={latestComic - 3} />
         </div>
     </div>
-}
+
 export default Overview
 
