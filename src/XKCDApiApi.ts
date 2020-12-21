@@ -29,6 +29,10 @@ const jsonToXKCD = (json: string): xkcdInfo => {
 }
 
 const getPageInfo = async (comicId?: number, preload = false): Promise<xkcdInfo> => {
+    if (comicId !== undefined && comicId <= 0) {
+        throw new Error(`Cannot get comic with id ${comicId}.`)
+    }
+
     const url = getUrl(comicId)
     const storedData = localStorage.getItem(url)
     if (storedData) {
@@ -38,7 +42,8 @@ const getPageInfo = async (comicId?: number, preload = false): Promise<xkcdInfo>
     const response = await fetch(url)
 
     if (!response.ok) {
-        throw new Error("Comic info could not be gotten." +  response.statusText)
+        console.error("Could get comic ", url)
+        throw new Error("Comic info could not be gotten. " + response.statusText)
     }
 
     const result = await response.text()
@@ -58,7 +63,7 @@ export const preloadImage = (url: string): Promise<void> => {
     return new Promise((resolve, reject) => {
         const img = new Image()
         img.addEventListener('load', () => resolve())
-        img.addEventListener('error', ({message}) => reject(message))
+        img.addEventListener('error', ({ message }) => reject(message))
 
         img.src = url
     })
