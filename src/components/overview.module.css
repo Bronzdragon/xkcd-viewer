@@ -1,0 +1,9 @@
+.thumbnailContainer {
+    border: solid red;
+    display: flex;
+    padding: 10px;
+}
+
+.thumbnail {
+    margin: 10px;
+}
