@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import fetchComicInfo, { xkcdInfo, preloadImage } from '../XKCDApiApi'
+import fetchComicInfo, { xkcdInfo } from '../XKCDApiApi'
 
 
 type DetailViewProps = {
@@ -19,13 +19,6 @@ const DetailView: React.FC<DetailViewProps> = ({ number, lastComic, previousComi
         // Get the info for this comic.
         fetchComicInfo(number).then(result => setComicInfo(result))
     }, [number])
-
-    useEffect(() => {
-        // pre-load the previous and next comics.
-        if (!comicInfo) return;
-        if (comicInfo.number < lastComic) { fetchComicInfo(comicInfo.number + 1).then(({ img }) => preloadImage(img)) }
-        if (comicInfo.number >= 2) { fetchComicInfo(comicInfo.number - 1).then(({ img }) => preloadImage(img)) }
-    }, [comicInfo])
 
     if (!comicInfo) {
         return <div>"... loading comic."</div>
