@@ -1,6 +1,7 @@
 import fetch from 'node-fetch';
 
-const getUrl = (comicId?: number) => `https://cors-anywhere.herokuapp.com/https://xkcd.com/${comicId ? `${comicId}/` : ''}info.0.json`
+const getUrl = (comicId?: number) => `https://xkcd.com/${comicId ? `${comicId}/` : ''}info.0.json`
+const getProxyURL = (comicId?: number) => 'https://cors-anywhere.herokuapp.com/' + getUrl(comicId)
 
 
 export type xkcdInfo = {
@@ -33,7 +34,7 @@ const getPageInfo = async (comicId?: number, preload = false): Promise<xkcdInfo>
         throw new Error(`Cannot get comic with id ${comicId}.`)
     }
 
-    const url = getUrl(comicId)
+    const url = getProxyURL(comicId)
     const storedData = localStorage.getItem(url)
     if (storedData) {
         return jsonToXKCD(storedData)
