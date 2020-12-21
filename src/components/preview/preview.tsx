@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
-import Thumbnail from "../thumbnail"
 import fetchComicInfo, { xkcdInfo } from '../../XKCDApiApi'
+import Thumbnail from "../thumbnail"
+import Throbber from "../throbber/throbber"
 
 import styles from './preview.module.css'
-import Throbber from "../throbber/throbber"
 
 type PreviewType = {
     comicId: number
@@ -14,11 +14,11 @@ const Preview: React.FC<PreviewType> = ({ comicId, onClick }) => {
     const [comicInfo, setComicInfo] = useState<xkcdInfo | null>(null)
     useEffect(() => {
         // Get the info for this comic.
-        fetchComicInfo(comicId).then(result => setComicInfo(result))
+        fetchComicInfo(comicId).then(setComicInfo)
         // setComicInfo(null);
     }, [comicId])
 
-    if(!comicInfo){
+    if (!comicInfo) {
         return <div className={styles.container + ' ' + styles.throbber}>
             <Throbber color="hsla(0, 0%, 0%, 0.2)" />
             loading...

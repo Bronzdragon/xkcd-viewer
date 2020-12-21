@@ -4,10 +4,9 @@ import styles from './thumbnail.module.css'
 
 export type ThumbnailType = {
     comicInfo: xkcdInfo
-    className?: string
 }
 
-const Thumbnail: React.FC<ThumbnailType> = ({ comicInfo,  className = ''}) => {
+const Thumbnail: React.FC<ThumbnailType> = ({ comicInfo }) => {
     return <img src={comicInfo?.img} alt={comicInfo?.title} className={styles.image} />;
 };
 

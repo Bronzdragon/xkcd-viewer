@@ -21,8 +21,9 @@ const generateThumbnails = (num: number, index: number, onOpenComic: (id: number
 
 const Overview: React.FC<OverviewProps> = ({ onOpenComic, latestComic }) => {
     const [previews, setPreviews] = useState<JSX.Element[]>([])
-    if(!previews.length)
+    if (!previews.length) {
         setPreviews(generateThumbnails(50, latestComic, onOpenComic))
+    }
 
     return <div onScroll={(event) => console.log("Scrolling!", event)}>
         Most recent comic: {latestComic}!

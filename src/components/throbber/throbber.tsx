@@ -7,10 +7,10 @@ type ThrobberProps = {
     className?: string
 }
 
-const Throbber: React.FC<ThrobberProps> = ({ color, className = '' }) => <div className={styles.container + ' ' + className }>
-    <div style={{background: color}} />
-    <div style={{background: color}} />
-    <div style={{background: color}} />
+const Throbber: React.FC<ThrobberProps> = ({ color, className = '' }) => <div className={styles.container + ' ' + className}>
+    <div style={{ background: color }} />
+    <div style={{ background: color }} />
+    <div style={{ background: color }} />
 </div>
 export default Throbber
 
