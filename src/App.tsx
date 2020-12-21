@@ -28,7 +28,6 @@ function App() {
         return <DetailView
             goBackHome={() => setOpenComic(0)}
             number={openComic}
-            lastComic={mostRecentComic}
             nextComic={() => setOpenComic(num => Math.min(mostRecentComic, num + 1))}
             previousComic={() => setOpenComic(num => Math.max(1, num - 1))}
         />
