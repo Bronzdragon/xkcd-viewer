@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 //import Thumbnail from './thumbnail'
 import Preview from './preview/preview'
 import styles from './overview.module.css'
@@ -7,6 +7,8 @@ type OverviewProps = {
     onOpenComic: (id: number) => void
     latestComic: number
 }
+
+const distanceFromBottom = () => document.body.scrollHeight - (window.pageYOffset + document.documentElement.clientHeight)
 
 const generateThumbnails = (num: number, index: number, onOpenComic: (id: number) => void, ascending = false) => {
     const incrementer = ascending ? 1 : -1
@@ -21,9 +23,22 @@ const generateThumbnails = (num: number, index: number, onOpenComic: (id: number
 
 const Overview: React.FC<OverviewProps> = ({ onOpenComic, latestComic }) => {
     const [previews, setPreviews] = useState<JSX.Element[]>([])
-    if (!previews.length) {
-        setPreviews(generateThumbnails(50, latestComic, onOpenComic))
-    }
+
+    useEffect(() => {
+        const scrollHandler = () => {
+            if(distanceFromBottom() < 400) {
+                setPreviews(previews => [...previews, ...generateThumbnails(5, latestComic - previews.length, onOpenComic)])
+            }
+        }
+        document.addEventListener("scroll", scrollHandler )
+        return () => document.removeEventListener("scroll", scrollHandler)
+    })
+
+    useEffect(() => {
+        if(distanceFromBottom() < 400) {
+            setPreviews(previews => [...previews, ...generateThumbnails(3, latestComic - previews.length, onOpenComic)])
+        }
+    }, [previews, latestComic, onOpenComic])
 
     return <div onScroll={(event) => console.log("Scrolling!", event)}>
         Most recent comic: {latestComic}!
@@ -34,4 +49,3 @@ const Overview: React.FC<OverviewProps> = ({ onOpenComic, latestComic }) => {
 }
 
 export default Overview
-
