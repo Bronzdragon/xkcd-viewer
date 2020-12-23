@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Preview from './preview/preview'
 import styles from './overview.module.css'
-import PageSelector from './page-selector/page_selector'
+import Navigator from './navigator/navigator'
 
 type OverviewProps = {
     onOpenComic: (id: number) => void
@@ -45,7 +45,7 @@ const Overview: React.FC<OverviewProps> = ({ onOpenComic, latestComic }) => {
         <div className={styles.container}>
             {previews}
         </div>
-        <PageSelector setMonth={month => console.log(month)} />
+        <Navigator setMonth={month => console.log(month)} viewFavourites={() => console.log("Here are your favourites: Strawberry icecream")} />
     </div>
 }
 

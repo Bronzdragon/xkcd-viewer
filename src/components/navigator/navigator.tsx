@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import styles from './page_selector.module.css'
+import styles from './navigator.module.css'
 
 type MonthSelectorProps = {
     onChangeMonth: (month: Date) => void
@@ -12,11 +12,12 @@ const MonthSelector = ({onChangeMonth}: MonthSelectorProps) => <span onClick={()
 }}>&lt;📆month selector&gt;</span>
 
 
-type PageSelectorProps = {
+type navigatorProps = {
     setMonth: (start: Date, end: Date) => void
+    viewFavourites: () => void
 }
 
-const PageSelector = ({ setMonth }: PageSelectorProps) => {
+const Navigator = ({ setMonth, viewFavourites }: navigatorProps) => {
     const [useRange, setUseRange] = useState(false);
 
     console.log("use range state: ", useRange)
@@ -39,9 +40,9 @@ const PageSelector = ({ setMonth }: PageSelectorProps) => {
                 new Date(month.getFullYear(), month.getMonth() + 1, 0))} />
         }
         <span onClick={() => setUseRange(use => !use)}>&lt;Range toggle<input type="checkbox" checked={useRange} />&gt;</span>
-        &lt;⭐ View Favourites&gt;
+        <span onClick={viewFavourites}>&lt;⭐ View Favourites&gt;</span>
     </div>
 }
 
-export default PageSelector
+export default Navigator
 
