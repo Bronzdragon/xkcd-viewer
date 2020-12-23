@@ -9,10 +9,12 @@ type OverviewProps = {
     latestComic?: number
 }
 
+type dateRange = [Date, Date]
+
 const Overview: React.FC<OverviewProps> = (props: OverviewProps) => {
     const [firstComic, setFirstComic] = useState<xkcdInfo|null>(null)
     const [latestComic, setLatestComic] = useState<xkcdInfo|null>(null)
-    const [dateRange, setDateRange] = useState<[Date, Date]>()
+    const [dateRange, setDateRange] = useState<dateRange>(getDefaultRange())
 
 
     useEffect(() => {
@@ -62,3 +64,41 @@ export default Overview
 
 //     return newPreviews
 // }
+
+function getDefaultRange(): dateRange {
+    const now = new Date()
+    return [
+        new Date(now.getFullYear(), now.getMonth(), 1), // beginning of current month
+        new Date(now.getFullYear(), now.getMonth() + 1, 0) // end of current month
+    ]
+}
+
+async function getComicIdsInRange([start, end]: dateRange): Promise<[number, number]> {
+    const [{date: firstDate}, {date: lastDate, number: lastNumber}] = await Promise.all([fetchComicInfo(1), fetchComicInfo()])
+
+    const timeRange = lastDate.getTime() - firstDate.getTime()
+    const startDateDelta = (start.getTime() - lastDate.getTime()) / timeRange
+    const endDateDelta = (end.getTime() - lastDate.getTime()) / timeRange
+
+    const estimatedStartComicIndex = startDateDelta * lastNumber
+    const estimatedEndComicIndex = endDateDelta * lastNumber
+
+    return Promise.all([
+        findBoundaryComic(start, estimatedStartComicIndex, lastNumber),
+        findBoundaryComic(end, estimatedEndComicIndex, lastNumber, true)
+    ])
+}
+
+async function findBoundaryComic(date: Date, estimatedIndex: number, lastComic: number, isEnd: boolean = false){
+    // Make the index odd, so we can reliably step 2 indices at a time
+    let index = estimatedIndex % 2 ? estimatedIndex : estimatedIndex + 1
+    while ((await fetchComicInfo(index)).date > date) {
+        if(index === 1) break
+        index -= 2
+    }
+    while ((await fetchComicInfo(index)).date < date) {
+        if(index === lastComic) return lastComic
+        index++
+    }
+    return index + (isEnd ? -1 : 0);
+}

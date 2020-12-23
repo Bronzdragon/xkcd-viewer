@@ -30,7 +30,7 @@ const Navigator = ({ setMonth, viewFavourites }: navigatorProps) => {
             ? <>
                 <MonthSelector onChangeMonth={month => setMonth(
                     month, // Start of range
-                    new Date(month.getFullYear(), month.getMonth() + 1, 0))} />
+                    new Date(month.getFullYear(), month.getMonth(), 0))} />
                 <MonthSelector onChangeMonth={month => setMonth(
                     month, // Start of range
                     new Date(month.getFullYear(), month.getMonth() + 1, 0))} />
@@ -39,7 +39,9 @@ const Navigator = ({ setMonth, viewFavourites }: navigatorProps) => {
                 month, // Start of range
                 new Date(month.getFullYear(), month.getMonth() + 1, 0))} />
         }
-        <span onClick={() => setUseRange(use => !use)}>&lt;Range toggle<input type="checkbox" checked={useRange} />&gt;</span>
+        <span onClick={(event) => {event.preventDefault(); setUseRange(use => !use)}}>
+            &lt;Range toggle<input type="checkbox" checked={useRange} onChange={event => setUseRange(event.target.checked)} />&gt;
+        </span>
         <span onClick={viewFavourites}>&lt;⭐ View Favourites&gt;</span>
     </div>
 }
