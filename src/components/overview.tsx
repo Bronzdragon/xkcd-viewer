@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-//import Thumbnail from './thumbnail'
 import Preview from './preview/preview'
 import styles from './overview.module.css'
+import PageSelector from './page-selector/page_selector'
 
 type OverviewProps = {
     onOpenComic: (id: number) => void
@@ -40,11 +40,12 @@ const Overview: React.FC<OverviewProps> = ({ onOpenComic, latestComic }) => {
         }
     }, [previews, latestComic, onOpenComic])
 
-    return <div onScroll={(event) => console.log("Scrolling!", event)}>
+    return <div>
         Most recent comic: {latestComic}!
         <div className={styles.container}>
             {previews}
         </div>
+        <PageSelector setMonth={month => console.log(month)} />
     </div>
 }
 
