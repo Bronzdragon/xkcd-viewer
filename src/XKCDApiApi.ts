@@ -35,9 +35,12 @@ const getPageInfo = async (comicId?: number, preload = false): Promise<xkcdInfo>
     }
 
     const url = getProxyURL(comicId)
-    const storedData = localStorage.getItem(url)
-    if (storedData) {
-        return jsonToXKCD(storedData)
+    if (comicId) {
+        // Don't retrieve from cache if we are trying to get the latest comic.
+        const storedData = localStorage.getItem(url)
+        if (storedData) {
+            return jsonToXKCD(storedData)
+        }
     }
 
     const response = await fetch(url)
