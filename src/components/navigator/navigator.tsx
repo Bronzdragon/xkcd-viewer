@@ -20,8 +20,6 @@ type navigatorProps = {
 const Navigator = ({ setMonth, viewFavourites }: navigatorProps) => {
     const [useRange, setUseRange] = useState(false);
 
-    console.log("use range state: ", useRange)
-
     return <div className={styles.container}>
         &lt;Search&gt;
         {

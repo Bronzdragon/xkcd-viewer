@@ -25,7 +25,6 @@ function App() {
     }
 
     if (!openComic) {
-        
         return <Overview />
     } else {
         return <DetailView
