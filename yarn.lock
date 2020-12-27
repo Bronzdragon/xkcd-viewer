@@ -8994,10 +8994,9 @@ react-is@^17.0.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.1.tgz#5b3531bd76a645a4c9fb6e693ed36419e3301339"
   integrity sha512-NAnt2iGDXohE5LI7uBnLnqvLQMtzhkiAOLXTmv+qnF9Ky7xAPcX8Up/xWIhxvLVGJvuLiNc4xQLtuqDRzb4fSA==
 
-react-month-picker@^2.2.0:
+"react-month-picker@https://github.com/Bronzdragon/react-month-picker":
   version "2.2.0"
-  resolved "https://registry.yarnpkg.com/react-month-picker/-/react-month-picker-2.2.0.tgz#37e728056a2e2813fdda7470f86fd8e30664699e"
-  integrity sha512-nn4pwmlqA6xtOWY3/FiTpKbSJHVNvIH0iwRIvvIJVcqFSU5HrsroKtrFkKJolwFo6owhl7fiDuaoj4VWCZQpdw==
+  resolved "https://github.com/Bronzdragon/react-month-picker#05c73eb37703e2014cd3079d47f9777139ddcc66"
   dependencies:
     react-tapper "^0.1.16"
 

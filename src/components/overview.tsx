@@ -9,12 +9,12 @@ type OverviewProps = {
     latestComic?: number
 }
 
-type dateRange = [Date, Date]
+export type DateRange = [Date, Date]
 
 const Overview: React.FC<OverviewProps> = ({ onOpenComic }: OverviewProps) => {
     const [firstComic, setFirstComic] = useState<xkcdInfo | null>(null)
     const [latestComic, setLatestComic] = useState<xkcdInfo | null>(null)
-    const [dateRange, setDateRange] = useState<dateRange>(getDefaultRange())
+    const [dateRange, setDateRange] = useState<DateRange>(getDateRange())
     const [comicRange, setComicRange] = useState<xkcdInfo[]>([])
 
     useEffect(() => {
@@ -24,7 +24,6 @@ const Overview: React.FC<OverviewProps> = ({ onOpenComic }: OverviewProps) => {
 
     useEffect(() => {
         getComicIdsInRange(dateRange).then(result => {
-            console.log("The comics in range are... ", result)
             Promise.all(
                 range(...result)
                     .map(num => fetchComicInfo(num))
@@ -43,7 +42,11 @@ const Overview: React.FC<OverviewProps> = ({ onOpenComic }: OverviewProps) => {
                 onClick={() => { if (onOpenComic) { onOpenComic(info.number) } }}
             />)}
         </div>
-        <Navigator setMonth={month => console.log(month)} viewFavourites={() => console.log("Here are your favourites: Strawberry icecream")} />
+        <Navigator dateRange={dateRange}
+            viewFavourites={() => console.log("Viewing favourites!")}
+            setMonthRange={(start, end) => setDateRange([start, end])}
+            validYearRange={[firstComic?.date.getFullYear() ?? 0, latestComic?.date.getFullYear() ?? 0]}
+        />
     </div>
 }
 
@@ -62,15 +65,14 @@ export default Overview
 //     return newPreviews
 // }
 
-function getDefaultRange(): dateRange {
-    const now = new Date()
+function getDateRange(start = new Date(), end = new Date()): DateRange {
     return [
-        new Date(now.getFullYear(), now.getMonth(), 1), // beginning of current month
-        new Date(now.getFullYear(), now.getMonth() + 1, 0) // end of current month
+        new Date(start.getFullYear(), start.getMonth(), 1), // beginning of current month
+        new Date(end.getFullYear(), end.getMonth() + 1, 1) // end of current month
     ]
 }
 
-async function getComicIdsInRange([start, end]: dateRange)/*: Promise<[number, number]>*/ {
+async function getComicIdsInRange([start, end]: DateRange)/*: Promise<[number, number]>*/ {
     if (start > end) {
         // Swap the dates, so the lower one is on the left
         [start, end] = [end, start]
@@ -107,7 +109,7 @@ async function findBoundaryComic(date: Date, estimatedIndex: number, lastComic: 
 
 function range(start: number = 0, end: number = 1): ReadonlyArray<number> {
     const returnValue = []
-    for (let i = start; i < end; i++) {
+    for (let i = start; i <= end; i++) {
         returnValue.push(i)
     }
     return returnValue
