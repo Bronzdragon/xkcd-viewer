@@ -45,7 +45,7 @@ const Overview: React.FC<OverviewProps> = ({ onOpenComic }: OverviewProps) => {
         <Navigator dateRange={dateRange}
             viewFavourites={() => console.log("Viewing favourites!")}
             setMonthRange={(start, end) => setDateRange([start, end])}
-            validYearRange={[firstComic?.date.getFullYear() ?? 0, latestComic?.date.getFullYear() ?? 0]}
+            validDateRange={[firstComic?.date ?? new Date(), latestComic?.date ?? new Date()]}
         />
     </div>
 }

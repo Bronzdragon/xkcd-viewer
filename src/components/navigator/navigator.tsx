@@ -7,15 +7,14 @@ type navigatorProps = {
     setMonthRange: (start: Date, end: Date) => void
     viewFavourites: () => void
     dateRange: DateRange
-    validYearRange: [number, number]
+    validDateRange: DateRange
 }
 
-const Navigator = ({ setMonthRange, viewFavourites, dateRange, validYearRange }: navigatorProps) => {
+const Navigator = ({ setMonthRange, viewFavourites, dateRange, validDateRange }: navigatorProps) => {
     const [useRange, setUseRange] = useState(false);
 
     return <div className={styles.container}>
-        &lt;Search&gt;
-        <MonthSelector onChangeMonth={setMonthRange} useRange={useRange} dateRange={dateRange} validYearRange={validYearRange} />
+        <MonthSelector onChangeMonth={setMonthRange} useRange={useRange} dateRange={dateRange} validDateRange={validDateRange} />
         <span onClick={() => { setUseRange(use => !use) }}>
             &lt;Range toggle<input type="checkbox" checked={useRange} onChange={event => setUseRange(event.target.checked)} />&gt;
         </span>
