@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import fetchComicInfo, { preloadImage, xkcdInfo } from './XKCDApiApi'
 import Overview from './components/overview';
-import DetailView from './components/detail_view';
+import DetailView from './components/detail_view/detail_view';
 
 function App() {
     const [firstComic, setFirstComic] = useState<xkcdInfo|null>(null)
@@ -24,16 +24,15 @@ function App() {
         return <div>...loading</div>
     }
 
-    if (!openComic) {
-        return <Overview />
-    } else {
-        return <DetailView
+    return <>
+        <Overview onOpenComic={setOpenComic} />
+        {openComic > 0 && <DetailView
             goBackHome={() => setOpenComic(0)}
             number={openComic}
             nextComic={() => setOpenComic(num => Math.min(latestComic.number, num + 1))}
             previousComic={() => setOpenComic(num => Math.max(1, num - 1))}
-        />
-    }
+        />}
+    </>
 }
 
 export default App;

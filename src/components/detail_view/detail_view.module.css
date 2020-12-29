@@ -1,0 +1,53 @@
+.background {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.navigationContainer{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    background-color: hsla(120, 100%, 50%, 0.2)
+}
+
+.number::before {
+    content: '#';
+}
+
+.title {
+    font-size: x-large;
+    font-weight: bold;
+    color: rgb(149, 58, 58);
+}
+
+.links {
+    display: flex;
+    flex: row;
+    justify-content: space-between;
+    width: 100%;
+}
+.links * {
+    margin: 1em 2em;
+}
+
+.detailContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.5);
+    /* width: 100;
+    height: 100;
+    position: absolute;
+    left: 0;
+    top: 0; */
+}

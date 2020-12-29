@@ -23,6 +23,8 @@ const Overview: React.FC<OverviewProps> = ({ onOpenComic }: OverviewProps) => {
     }, [])
 
     useEffect(() => {
+        setComicRange([])
+
         getComicIdsInRange(dateRange).then(result => {
             Promise.all(
                 range(...result)
@@ -32,10 +34,8 @@ const Overview: React.FC<OverviewProps> = ({ onOpenComic }: OverviewProps) => {
     }, [dateRange])
 
     return <div>
-        First comic: #{firstComic?.number} [{firstComic?.title}]<br />
-        Most recent comic: #{latestComic?.number} [{latestComic?.title}]!
-
         <div className={styles.container}>
+            {comicRange.length === 0 ? "loading..." : ''}
             {comicRange.map(info => <Preview 
                 key={info.number}
                 comicId={info.number}
@@ -51,19 +51,6 @@ const Overview: React.FC<OverviewProps> = ({ onOpenComic }: OverviewProps) => {
 }
 
 export default Overview
-
-// const distanceFromBottom = () => document.body.scrollHeight - (window.pageYOffset + document.documentElement.clientHeight)
-
-// const generateThumbnails = (num: number, index: number, onOpenComic: (id: number) => void, ascending = false) => {
-//     const incrementer = ascending ? 1 : -1
-//     const newPreviews: JSX.Element[] = []
-
-//     for (let i = index; i > index + (num * incrementer); i += incrementer) {
-//         newPreviews.push(<Preview key={i} onClick={() => onOpenComic(i)} comicId={i} />,)
-//     }
-
-//     return newPreviews
-// }
 
 function getDateRange(start = new Date(), end = new Date()): DateRange {
     return [
