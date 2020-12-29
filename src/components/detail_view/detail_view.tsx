@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import fetchComicInfo, { xkcdInfo } from '../../XKCDApiApi'
 import styles from './detail_view.module.css'
 import { Popover } from '../popover/popover';
-import { ComicHeader } from './comic_header';
+import ComicHeader from './header/header';
 import ComicLinkSection from './comic_linksection/link_section';
 
 type DetailViewProps = {
@@ -11,9 +11,6 @@ type DetailViewProps = {
     nextComic?: () => void
     goBackHome?: () => void
 }
-
-const getExplainLink = (id: number) => `https://explainxkcd.com/wiki/index.php/${id}`
-const getSiteLink = (id: number) => `https://xkcd/com/${id}`
 
 const DetailView: React.FC<DetailViewProps> = ({ number, previousComic, nextComic, goBackHome }) => {
     const [comicInfo, setComicInfo] = useState<xkcdInfo | null>(null);
