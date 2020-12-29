@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import fetchComicInfo, { xkcdInfo } from '../../XKCDApiApi'
 import styles from './detail_view.module.css'
+import { Popover } from '../popover/popover';
 
 
 type DetailViewProps = {
@@ -24,7 +25,7 @@ const DetailView: React.FC<DetailViewProps> = ({ number, previousComic, nextComi
         return <div>"... loading comic."</div>
     }
 
-    return <div className={styles.background} onClick={goBackHome} >
+    return <Popover open={true} onClose={goBackHome} >
         <div className={styles.navigationContainer} onClick={event => event.stopPropagation()}>
             <div onClick={previousComic}>LEFT</div>
             <div className={styles.detailContainer}>
@@ -40,6 +41,7 @@ const DetailView: React.FC<DetailViewProps> = ({ number, previousComic, nextComi
             </div>
             <div onClick={nextComic}>RIGHT</div>
         </div>
-    </div>
+    </Popover>
 }
 export default DetailView
+
