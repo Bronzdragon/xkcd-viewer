@@ -1,0 +1,9 @@
+.number::before {
+    content: '#';
+}
+
+.title {
+    font-size: x-large;
+    font-weight: bold;
+    color: rgb(149, 58, 58);
+}

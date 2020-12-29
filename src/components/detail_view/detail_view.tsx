@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import fetchComicInfo, { xkcdInfo } from '../../XKCDApiApi'
 import styles from './detail_view.module.css'
 import { Popover } from '../popover/popover';
-
+import { ComicHeader } from './comic_header';
 
 type DetailViewProps = {
     number: number
@@ -18,7 +18,7 @@ const DetailView: React.FC<DetailViewProps> = ({ number, previousComic, nextComi
     const [comicInfo, setComicInfo] = useState<xkcdInfo | null>(null);
     useEffect(() => {
         // Get the info for this comic.
-        fetchComicInfo(number).then(result => setComicInfo(result))
+        fetchComicInfo(number).then(setComicInfo)
     }, [number])
 
     if (!comicInfo) {
@@ -29,10 +29,7 @@ const DetailView: React.FC<DetailViewProps> = ({ number, previousComic, nextComi
         <div className={styles.navigationContainer} onClick={event => event.stopPropagation()}>
             <div onClick={previousComic}>LEFT</div>
             <div className={styles.detailContainer}>
-                <span className={styles.header}>
-                    <span className={styles.number}>{comicInfo.number}</span>
-                    <span className={styles.title}>{comicInfo.title}</span>
-                </span>
+                <ComicHeader number={comicInfo.number} title={comicInfo.title} />
                 <img src={comicInfo.img} onClick={goBackHome} alt={comicInfo.title} title={comicInfo.alt} />
                 <div className={styles.links}>
                     <a href={getSiteLink(comicInfo.number)}>Source</a>
@@ -43,5 +40,5 @@ const DetailView: React.FC<DetailViewProps> = ({ number, previousComic, nextComi
         </div>
     </Popover>
 }
-export default DetailView
 
+export default DetailView
