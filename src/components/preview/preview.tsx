@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import fetchComicInfo, { xkcdInfo } from '../../XKCDApiApi'
-import Thumbnail from "../thumbnail"
+import Thumbnail from "../thumbnail/thumbnail"
 import Throbber from "../throbber/throbber"
 
 import styles from './preview.module.css'

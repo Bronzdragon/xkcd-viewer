@@ -1,0 +1,10 @@
+.image {
+    object-fit: cover;
+    /* TODO: Maybe "contain" is a better value?*/
+    display: block;
+    width: 100%;
+    height: 100%;
+
+    /* Some comics have their EXIF data set to enable rotation. The website ignores that rotation. Example, comic 104 */
+	image-orientation: none;
+}
