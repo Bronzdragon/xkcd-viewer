@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import fetchComicInfo, { xkcdInfo } from '../../XKCDApiApi'
-import styles from './detail_view.module.css'
-import { Popover } from '../popover/popover';
+
+import Popover from '../popover/popover';
 import ComicHeader from './header/header';
-import ComicLinkSection from './comic_linksection/link_section';
+import ComicLinkSection from './link_section/link_section';
+
+import styles from './detail_view.module.css'
 
 type DetailViewProps = {
     number: number
