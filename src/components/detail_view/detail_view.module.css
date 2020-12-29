@@ -6,16 +6,6 @@
     background-color: hsla(120, 100%, 50%, 0.2)
 }
 
-.links {
-    display: flex;
-    flex: row;
-    justify-content: space-between;
-    width: 100%;
-}
-.links * {
-    margin: 1em 2em;
-}
-
 .detailContainer {
     display: flex;
     flex-direction: column;

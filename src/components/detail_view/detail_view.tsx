@@ -3,6 +3,7 @@ import fetchComicInfo, { xkcdInfo } from '../../XKCDApiApi'
 import styles from './detail_view.module.css'
 import { Popover } from '../popover/popover';
 import { ComicHeader } from './comic_header';
+import ComicLinkSection from './comic_linksection/link_section';
 
 type DetailViewProps = {
     number: number
@@ -31,10 +32,7 @@ const DetailView: React.FC<DetailViewProps> = ({ number, previousComic, nextComi
             <div className={styles.detailContainer}>
                 <ComicHeader number={comicInfo.number} title={comicInfo.title} />
                 <img src={comicInfo.img} onClick={goBackHome} alt={comicInfo.title} title={comicInfo.alt} />
-                <div className={styles.links}>
-                    <a href={getSiteLink(comicInfo.number)}>Source</a>
-                    <a href={getExplainLink(comicInfo.number)}>Explaination</a>
-                </div>
+                <ComicLinkSection comicId={comicInfo.number} />
             </div>
             <div onClick={nextComic}>RIGHT</div>
         </div>
