@@ -3,7 +3,7 @@ import fetchComicInfo, { xkcdInfo } from '../../XKCDApiApi'
 
 import Popover from '../popover/popover';
 import ComicHeader from './header/header';
-import ComicLinkSection from './link_section/link_section';
+import ComicFooter from './footer/footer';
 
 import styles from './detail_view.module.css'
 
@@ -16,6 +16,7 @@ type DetailViewProps = {
 
 const DetailView: React.FC<DetailViewProps> = ({ number, previousComic, nextComic, goBackHome }) => {
     const [comicInfo, setComicInfo] = useState<xkcdInfo | null>(null);
+    const [isFavourite, setFavourite] = useState(false);
     useEffect(() => {
         // Get the info for this comic.
         fetchComicInfo(number).then(setComicInfo)
@@ -31,7 +32,7 @@ const DetailView: React.FC<DetailViewProps> = ({ number, previousComic, nextComi
             <div className={styles.detailContainer}>
                 <ComicHeader number={comicInfo.number} title={comicInfo.title} />
                 <img src={comicInfo.img} alt={comicInfo.title} title={comicInfo.alt} />
-                <ComicLinkSection comicId={comicInfo.number} />
+                <ComicFooter comicId={comicInfo.number} isFavourite={isFavourite} onToggleFavourite={() => setFavourite(wasFavourite => !wasFavourite)} />
             </div>
             <div onClick={nextComic}>RIGHT</div>
         </div>
