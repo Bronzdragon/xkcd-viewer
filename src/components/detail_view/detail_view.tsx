@@ -25,12 +25,12 @@ const DetailView: React.FC<DetailViewProps> = ({ number, previousComic, nextComi
         return <div>"... loading comic."</div>
     }
 
-    return <Popover open={true} onClose={goBackHome} >
-        <div className={styles.navigationContainer} onClick={event => event.stopPropagation()}>
+    return <Popover open={true} onDismiss={goBackHome} >
+        <div className={styles.navigationContainer}>
             <div onClick={previousComic}>LEFT</div>
             <div className={styles.detailContainer}>
                 <ComicHeader number={comicInfo.number} title={comicInfo.title} />
-                <img src={comicInfo.img} onClick={goBackHome} alt={comicInfo.title} title={comicInfo.alt} />
+                <img src={comicInfo.img} alt={comicInfo.title} title={comicInfo.alt} />
                 <ComicLinkSection comicId={comicInfo.number} />
             </div>
             <div onClick={nextComic}>RIGHT</div>

@@ -13,5 +13,3 @@ export default function ComicLinkSection({ comicId }: ComicLinkSectionProps) {
 
 const getSiteLink = (id: number) => `https://xkcd/com/${id}`
 const getExplainLink = (id: number) => `https://explainxkcd.com/wiki/index.php/${id}`
-
-
