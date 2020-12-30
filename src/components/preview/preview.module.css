@@ -8,7 +8,7 @@
     align-items: center;
 }
 
-.container img {
+.container .thumbnail {
     height: var(--element-size);
 }
 

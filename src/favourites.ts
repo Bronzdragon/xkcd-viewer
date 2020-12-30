@@ -6,8 +6,13 @@ export default function getFavourites() {
     return [...favourites];
 }
 
+export function isFavourite(id:number) {
+    return favourites.includes(id)
+}
+
 export function addFavourite(id: number) {
     if (favourites.includes(id)) { return }
+    
     favourites.push(id)
     localStorage.setItem(key, JSON.stringify(favourites))
 }

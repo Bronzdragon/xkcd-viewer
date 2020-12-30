@@ -4,6 +4,8 @@ import Thumbnail from "../thumbnail/thumbnail"
 import Throbber from "../throbber/throbber"
 
 import styles from './preview.module.css'
+import Star from "../star/star"
+import { isFavourite } from "../../favourites"
 
 type PreviewType = {
     comicId: number
@@ -26,8 +28,8 @@ const Preview: React.FC<PreviewType> = ({ comicId, onClick }) => {
     }
 
     return <div className={styles.container} onClick={onClick}>
-        <Thumbnail comicInfo={comicInfo} />
-        {comicInfo.title}
+        <span>{comicInfo.title} <Star filled={isFavourite(comicInfo.number)} /></span>
+        <Thumbnail className={styles.thumbnail} comicInfo={comicInfo} />
     </div>
 }
 
