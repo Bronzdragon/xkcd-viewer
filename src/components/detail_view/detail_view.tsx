@@ -6,6 +6,7 @@ import ComicHeader from './header/header';
 import ComicFooter from './footer/footer';
 
 import styles from './detail_view.module.css'
+import getFavourites, { addFavourite } from '../../favourites';
 
 type DetailViewProps = {
     number: number
@@ -16,11 +17,15 @@ type DetailViewProps = {
 
 const DetailView: React.FC<DetailViewProps> = ({ number, previousComic, nextComic, goBackHome }) => {
     const [comicInfo, setComicInfo] = useState<xkcdInfo | null>(null);
-    const [isFavourite, setFavourite] = useState(false);
+    const [isFavourite, setFavourite] = useState(getFavourites().includes(number));
     useEffect(() => {
         // Get the info for this comic.
         fetchComicInfo(number).then(setComicInfo)
     }, [number])
+
+    useEffect(() => {
+        addFavourite(number)
+    }, [isFavourite, number])
 
     if (!comicInfo) {
         return <div>"... loading comic."</div>
