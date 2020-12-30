@@ -5,4 +5,18 @@
     width: 100%;
     background-color: lightcoral;
     font-size: 2em;
+    display: flex;
+    flex-direction: row;
+}
+
+.chevron {
+    height: 1.5em;
+    width: 1.5em;
+}
+
+.left {
+    transform: rotate(90deg);
+}
+.right {
+    transform: rotate(-90deg);
 }
