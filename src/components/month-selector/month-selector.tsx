@@ -3,7 +3,8 @@ import { useRef } from 'react'
 import Picker from 'react-month-picker'
 import 'react-month-picker/css/month-picker.css'
 import './month-selector.css'
-import { isSimpleDate, SimpleDate, SimpleDateRange } from '../overview'
+import { isSimpleDate } from '../../simple_date'
+import { SimpleDate, SimpleDateRange } from "../../simple_date"
 import { MonthSelectorButton } from './month-selector-button'
 
 export const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] as const

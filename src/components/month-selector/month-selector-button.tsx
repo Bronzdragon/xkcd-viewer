@@ -1,4 +1,4 @@
-import { isSimpleDateRange, SimpleDate, SimpleDateRange } from "../overview";
+import { SimpleDate, SimpleDateRange, isSimpleDateRange} from "../../simple_date";
 import { monthNames } from "./month-selector";
 
 type SelectorElementProps = {

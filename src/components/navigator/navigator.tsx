@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { getSimpleDateRange, SimpleDate, SimpleDateRange } from '../overview'
+import { getSimpleDateRange, SimpleDate, SimpleDateRange } from "../../simple_date";
 
 import MonthSelector from '../month-selector/month-selector';
 

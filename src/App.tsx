@@ -1,36 +1,108 @@
 import React, { useEffect, useState } from 'react';
 
 import fetchComicInfo, { preloadImage, xkcdInfo } from './XKCDApiApi'
+
 import Overview from './components/overview';
 import DetailView from './components/detail_view/detail_view';
 
+import { SimpleDateRange, SimpleDate, getSimpleDateRange, dateToSimpleDate, simpleDateToDate } from './simple_date'
+
+
 function App() {
-    const [latestComic, setLatestComic] = useState<number>(0)
+    const [dateRange, setDateRange] = useState<SimpleDateRange>(getSimpleDateRange())
+    const [latestComic, setLatestComic] = useState<xkcdInfo>()
+    const [firstComic, setFirstComic] = useState<xkcdInfo>()
     const [openComic, setOpenComic] = useState(0)
+    const [comicInfoArray, setComicInfoArray] = useState<[number, Promise<xkcdInfo>][]>([])
     useEffect(() => {
-        fetchComicInfo().then(({number}) => setLatestComic(number))
+        fetchComicInfo().then(info => setLatestComic(info))
+        fetchComicInfo(1).then(info => setFirstComic(info))
     }, [])
+
+    useEffect(() => {
+        if(!latestComic) return; // Still loading.
+        getComicIdsInRange(dateRange)
+            .then(comicRange => {
+                setComicInfoArray(range(...comicRange).map(num => [num, fetchComicInfo(num)]))
+            })
+    }, [dateRange, latestComic, setComicInfoArray])
 
     // Preload the next/previous comic pages, if there are any.
     useEffect(() => {
-        if (openComic + 1 <= latestComic) { fetchComicInfo(openComic + 1).then(({ img }) => preloadImage(img)) }
+        if (openComic + 1 <= (latestComic?.number ?? 0)) { fetchComicInfo(openComic + 1).then(({ img }) => preloadImage(img)) }
         if (openComic - 1 >= 1) { fetchComicInfo(openComic - 1).then(({ img }) => preloadImage(img)) }
     }, [openComic, latestComic])
 
-    if (!latestComic) {
+    if (!latestComic || !firstComic) {
         // No comics loaded yet...
         return <div>...loading</div>
     }
 
     return <>
-        <Overview onOpenComic={setOpenComic} />
+        <Overview comics={comicInfoArray} onOpenComic={setOpenComic} dateRange={dateRange} onUpdateDateRange={setDateRange} validDateRange={getSimpleDateRange(firstComic.date, latestComic.date)} />
         {openComic > 0 && <DetailView
             goBackHome={() => setOpenComic(0)}
             number={openComic}
-            nextComic={() => setOpenComic(num => Math.min(latestComic, num + 1))}
+            nextComic={() => setOpenComic(num => Math.min(latestComic.number, num + 1))}
             previousComic={() => setOpenComic(num => Math.max(1, num - 1))}
         />}
     </>
 }
 
 export default App;
+
+async function getComicIdsInRange({ from, to }: SimpleDateRange)/*: Promise<[number, number]>*/ {
+    const firstNumber = 1
+    const [{ date: firstDate }, { date: lastDate, number: lastNumber }] = await Promise.all([fetchComicInfo(firstNumber), fetchComicInfo()])
+    const firstSimpleDate = dateToSimpleDate(firstDate)
+    const firstMonthCount = firstSimpleDate.year * 12 + firstSimpleDate.month
+    const lastSimpleDate = dateToSimpleDate(lastDate)
+    const lastMonthCount = lastSimpleDate.year * 12 + lastSimpleDate.month
+
+    const monthRange = lastMonthCount - firstMonthCount
+    const startMonthCount = from.year * 12 + from.month
+    const endMonthCount = to.year * 12 + to.month
+
+    const startMonthDelta = (startMonthCount - firstMonthCount) / monthRange
+    const endMonthDelta = (endMonthCount - firstMonthCount) / monthRange
+
+    const estimatedStartComicIndex = clamp(Math.round(startMonthDelta * lastNumber), 1, lastNumber)
+    const estimatedEndComicIndex = clamp(Math.round(endMonthDelta * lastNumber), 1, lastNumber)
+
+    return Promise.all([
+        findBoundaryComic(from, estimatedStartComicIndex, lastNumber, false),
+        findBoundaryComic(to, estimatedEndComicIndex, lastNumber, true),
+    ])
+}
+
+async function findBoundaryComic(date: SimpleDate, estimatedIndex: number, lastComic: number, isEnd: boolean = false) {
+    let dateObj = simpleDateToDate(date, isEnd)
+    // Make the index odd, so we can reliably step 2 indices at a time
+    let index = clamp(estimatedIndex % 2 ? estimatedIndex : estimatedIndex + 1, 1, lastComic)
+    while ((await fetchComicInfo(index)).date > dateObj) {
+        if (index === 1) break
+        index -= 2
+    }
+
+    while ((await fetchComicInfo(index)).date < dateObj) {
+        if (index === lastComic) return lastComic
+        index++
+    }
+
+    return index + (isEnd ? -1 : 0);
+}
+
+function range(start: number = 0, end: number = 1): ReadonlyArray<number> {
+    const returnValue = []
+    for (let i = start; i <= end; i++) {
+        returnValue.push(i)
+    }
+    return returnValue
+}
+
+function clamp(num: number, min = 0, max = 1) {
+    return Math.min(
+        Math.max(num, min),
+        max,
+    )
+}
