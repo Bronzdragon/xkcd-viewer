@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import type { DateRange } from '../overview'
+import { getSimpleDateRange, SimpleDate, SimpleDateRange } from '../overview'
 
 import MonthSelector from '../month-selector/month-selector';
 
@@ -8,20 +8,24 @@ import styles from './navigator.module.css'
 
 
 type navigatorProps = {
-    setMonthRange: (start: Date, end: Date) => void
+    setMonthRange: (range: SimpleDateRange) => void
     viewFavourites: () => void
-    dateRange: DateRange
-    validDateRange: DateRange
+    dateRange: SimpleDateRange
+    validDateRange: SimpleDateRange
 }
 
 const Navigator = ({ setMonthRange, viewFavourites, dateRange, validDateRange }: navigatorProps) => {
     const [useRange, setUseRange] = useState(false);
 
     return <div className={styles.container}>
-        <img src={chevron} className={[styles.chevron, styles.left].join(' ')}
-            onClick={() => setMonthRange(...adjustDateRange(dateRange, -1))} />
-        <MonthSelector onChangeMonth={setMonthRange} useRange={useRange} dateRange={dateRange} validDateRange={validDateRange} />
-        <img src={chevron} className={[styles.chevron, styles.right].join(' ')} onClick={() => setMonthRange(...adjustDateRange(dateRange, +1))} />
+        <img src={chevron} className={[styles.chevron, styles.left].join(' ')} onClick={() => {
+            console.log("Previous date range: ", dateRange)
+            const newDateRange = adjustSimpleDateRange(dateRange, -1)
+            console.log("New date range: ", newDateRange)
+            setMonthRange(newDateRange)
+        }} alt="one month earlier" />
+        <MonthSelector onChangeMonth={(start, end) => setMonthRange(getSimpleDateRange(start, end))} useRange={useRange} dateRange={dateRange} validDateRange={validDateRange} />
+        <img src={chevron} className={[styles.chevron, styles.right].join(' ')} onClick={() => setMonthRange(adjustSimpleDateRange(dateRange, 1))} alt="one month later" />
         <span onClick={() => { setUseRange(use => !use) }}>
             &lt;Range toggle<input type="checkbox" checked={useRange} onChange={event => setUseRange(event.target.checked)} />&gt;
         </span>
@@ -31,21 +35,15 @@ const Navigator = ({ setMonthRange, viewFavourites, dateRange, validDateRange }:
 
 export default Navigator
 
-function adjustDateRange([start, end]: DateRange, amount: number = 1): DateRange {
-    const startResult = new Date(start)    
-    const endResult = new Date(end)
+function adjustSimpleDateRange({ from, to }: SimpleDateRange, amount = 1): SimpleDateRange {
+    return { from: adjustSimpleDate(from, amount), to: adjustSimpleDate(to, amount) }
+}
 
-    startResult.setMonth(startResult.getMonth() - 1)
-    startResult.setDate(1)
+function adjustSimpleDate({year, month}: SimpleDate, amount = 1) {
+    const months = year * 12 + month + amount;
 
-    endResult.setMonth(endResult.getMonth() - 1)
-    endResult.setDate(1)
-
-    return [startResult, endResult]
-
-    let result: DateRange = [
-        new Date(start.getFullYear(), start.getMonth() + amount),
-        new Date(end.getFullYear(), end.getMonth() + amount)
-    ]
-    return result
+    return {
+        month: months % 12,
+        year: Math.floor(months / 12),
+    }
 }
