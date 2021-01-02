@@ -17,3 +17,15 @@
     left: 0;
     top: 0; */
 }
+
+.navIconContainer{
+    align-self: stretch;
+    min-width: 30px;
+}
+
+.navigationIcon {
+    align-self: center;
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+}

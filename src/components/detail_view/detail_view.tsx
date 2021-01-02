@@ -5,6 +5,8 @@ import Popover from '../popover/popover';
 import ComicHeader from './header/header';
 import ComicFooter from './footer/footer';
 
+import chevronLeft from './chevron-left.svg'
+import chevronRight from './chevron-right.svg'
 import styles from './detail_view.module.css'
 import { addFavourite, isFavourite, removeFavourite } from '../../favourites';
 
@@ -33,13 +35,14 @@ const DetailView: React.FC<DetailViewProps> = ({ number, previousComic, nextComi
 
     return <Popover open={true} onDismiss={goBackHome} >
         <div className={styles.navigationContainer}>
-            <div onClick={previousComic}>LEFT</div>
+            <div className={styles.navIconContainer} ><img src={chevronLeft} onClick={previousComic} className={[styles.navigationIcon, styles.left].join(" ")} /></div>
             <div className={styles.detailContainer}>
                 <ComicHeader number={comicInfo.number} title={comicInfo.title} />
                 <img src={comicInfo.img} alt={comicInfo.title} title={comicInfo.alt} />
                 <ComicFooter comicId={comicInfo.number} isFavourite={favourite} onToggleFavourite={() => setFavourite(wasFavourite => !wasFavourite)} />
             </div>
-            <div onClick={nextComic}>RIGHT</div>
+            <div className={styles.navIconContainer} ><img src={chevronRight} onClick={nextComic} className={[styles.navigationIcon, styles.right].join(" ")} /></div>
+            
         </div>
     </Popover>
 }
