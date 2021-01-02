@@ -5,14 +5,14 @@ import fetchComicInfo, { preloadImage, xkcdInfo } from './XKCDApiApi'
 import Overview from './components/overview';
 import DetailView from './components/detail_view/detail_view';
 
-import { SimpleDateRange, SimpleDate, getSimpleDateRange, dateToSimpleDate, simpleDateToDate } from './simple_date'
+import { SimpleDateRange, SimpleDate, getSimpleDateRange, dateToSimpleDate, simpleDateToDate, compareSimpleDate, adjustSimpleDate } from './simple_date'
 
 
 function App() {
     const [dateRange, setDateRange] = useState<SimpleDateRange>(getSimpleDateRange())
     const [latestComic, setLatestComic] = useState<xkcdInfo>()
     const [firstComic, setFirstComic] = useState<xkcdInfo>()
-    const [openComic, setOpenComic] = useState(0)
+    const [openComic, setOpenComic] = useState<number | null>(null)
     const [comicInfoArray, setComicInfoArray] = useState<[number, Promise<xkcdInfo>][]>([])
     useEffect(() => {
         fetchComicInfo().then(info => setLatestComic(info))
@@ -20,7 +20,7 @@ function App() {
     }, [])
 
     useEffect(() => {
-        if(!latestComic) return; // Still loading.
+        if (!latestComic) return; // Still loading.
         getComicIdsInRange(dateRange)
             .then(comicRange => {
                 setComicInfoArray(range(...comicRange).map(num => [num, fetchComicInfo(num)]))
@@ -29,9 +29,26 @@ function App() {
 
     // Preload the next/previous comic pages, if there are any.
     useEffect(() => {
+        if (!openComic) return;
         if (openComic + 1 <= (latestComic?.number ?? 0)) { fetchComicInfo(openComic + 1).then(({ img }) => preloadImage(img)) }
         if (openComic - 1 >= 1) { fetchComicInfo(openComic - 1).then(({ img }) => preloadImage(img)) }
     }, [openComic, latestComic])
+
+    // Check if our openComic value exceeds our current date range. If so, adjust the dateRange to include it
+    useEffect(() => {
+        if (!openComic) return;
+        fetchComicInfo(openComic).then(info => {
+            const comicMonth = dateToSimpleDate(info.date)
+            if (compareSimpleDate(comicMonth, dateRange.from) < 0) {
+                // If the date is before our current range
+                setDateRange(range => getSimpleDateRange(adjustSimpleDate(range.from, -1), range.to))
+            }
+            if (compareSimpleDate(comicMonth, dateRange.to) > 0) {
+                // If the date is after our current range
+                setDateRange(range => getSimpleDateRange(range.from, adjustSimpleDate(range.to, 1)))
+            }
+        })
+    }, [openComic, dateRange, setDateRange])
 
     if (!latestComic || !firstComic) {
         // No comics loaded yet...
@@ -39,12 +56,18 @@ function App() {
     }
 
     return <>
-        <Overview comics={comicInfoArray} onOpenComic={setOpenComic} dateRange={dateRange} onUpdateDateRange={setDateRange} validDateRange={getSimpleDateRange(firstComic.date, latestComic.date)} />
-        {openComic > 0 && <DetailView
-            goBackHome={() => setOpenComic(0)}
+        <Overview
+            comics={comicInfoArray}
+            onOpenComic={setOpenComic}
+            dateRange={dateRange}
+            onUpdateDateRange={setDateRange}
+            validDateRange={getSimpleDateRange(firstComic.date, latestComic.date)}
+        />
+        {openComic && <DetailView
+            goBackHome={() => setOpenComic(null)}
             number={openComic}
-            nextComic={() => setOpenComic(num => Math.min(latestComic.number, num + 1))}
-            previousComic={() => setOpenComic(num => Math.max(1, num - 1))}
+            nextComic={() => setOpenComic(num => Math.min(latestComic.number, (num ?? 0) + 1))}
+            previousComic={() => setOpenComic(num => Math.max(1, (num ?? 0) - 1))}
         />}
     </>
 }
