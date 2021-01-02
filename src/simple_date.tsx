@@ -41,6 +41,20 @@ export function getSimpleDateRange(from: SimpleDate | Date = new Date(), to: Sim
     return { from: dateToSimpleDate(from as Date), to: dateToSimpleDate(to as Date) }
 }
 
+
+export function compareSimpleDate(range: SimpleDateRange): number
+export function compareSimpleDate(first: SimpleDate, second:SimpleDate): number
+export function compareSimpleDate(arg: SimpleDate | SimpleDateRange, second?: SimpleDate): number {
+    if(isSimpleDateRange(arg)){
+        return compareSimpleDate(arg.from, arg.to)
+    }
+
+    // Typescript is unhappy with the second argument possibly being undefined.
+    // This is a shortcoming of the type system, though.
+    if(arg.year !== second!.year) return Math.sign(arg.year - second!.year)
+    return Math.sign(arg.month - second!.month)
+}
+
 export function dateToSimpleDate(date: Date): SimpleDate {
     return {
         year: date.getFullYear(),
@@ -55,4 +69,18 @@ export function simpleDateToDate({ year, month }: SimpleDate, endOfMonth = false
         return new Date(year, month, 1, 0, 0, 0, -1)
     }
     return new Date(year, month - 1)
+}
+
+export function adjustSimpleDate({year, month}: SimpleDate, amount = 1) {
+    // Don't forget that SimpleDate months are 1-indexed.
+    const months = year * 12 + (month - 1) + amount;
+
+    return {
+        month: 1 + (months % 12),
+        year: Math.floor(months / 12),
+    }
+}
+
+export function adjustSimpleDateRange({ from, to }: SimpleDateRange, amount = 1): SimpleDateRange {
+    return { from: adjustSimpleDate(from, amount), to: adjustSimpleDate(to, amount) }
 }

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { getSimpleDateRange, SimpleDate, SimpleDateRange } from "../../simple_date";
+import { getSimpleDateRange, SimpleDateRange, adjustSimpleDateRange } from "../../simple_date";
 
 import MonthSelector from '../month-selector/month-selector';
 
@@ -35,15 +35,3 @@ const Navigator = ({ setMonthRange, viewFavourites, dateRange, validDateRange }:
 
 export default Navigator
 
-function adjustSimpleDateRange({ from, to }: SimpleDateRange, amount = 1): SimpleDateRange {
-    return { from: adjustSimpleDate(from, amount), to: adjustSimpleDate(to, amount) }
-}
-
-function adjustSimpleDate({year, month}: SimpleDate, amount = 1) {
-    const months = year * 12 + month + amount;
-
-    return {
-        month: months % 12,
-        year: Math.floor(months / 12),
-    }
-}
