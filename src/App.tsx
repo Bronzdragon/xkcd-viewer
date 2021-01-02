@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
-
 import fetchComicInfo, { preloadImage, xkcdInfo } from './XKCDApiApi'
+import { SimpleDateRange, SimpleDate, getSimpleDateRange, dateToSimpleDate, simpleDateToDate, compareSimpleDate, adjustSimpleDate } from './simple_date'
 
 import Overview from './components/overview';
 import DetailView from './components/detail_view/detail_view';
-
-import { SimpleDateRange, SimpleDate, getSimpleDateRange, dateToSimpleDate, simpleDateToDate, compareSimpleDate, adjustSimpleDate } from './simple_date'
-
+import getFavourites from './favourites';
 
 function App() {
     const [dateRange, setDateRange] = useState<SimpleDateRange>(getSimpleDateRange())
@@ -14,6 +12,8 @@ function App() {
     const [firstComic, setFirstComic] = useState<xkcdInfo>()
     const [openComic, setOpenComic] = useState<number | null>(null)
     const [comicInfoArray, setComicInfoArray] = useState<[number, Promise<xkcdInfo>][]>([])
+    const [viewingFavourites, setViewingFavourites] = useState(false)
+
     useEffect(() => {
         fetchComicInfo().then(info => setLatestComic(info))
         fetchComicInfo(1).then(info => setFirstComic(info))
@@ -21,11 +21,21 @@ function App() {
 
     useEffect(() => {
         if (!latestComic) return; // Still loading.
-        getComicIdsInRange(dateRange)
-            .then(comicRange => {
-                setComicInfoArray(range(...comicRange).map(num => [num, fetchComicInfo(num)]))
-            })
-    }, [dateRange, latestComic, setComicInfoArray])
+        if (viewingFavourites) {
+            console.log("Setting them to our favourites")
+            const result = getFavourites()
+                .map<[number, Promise<xkcdInfo>]>(num => [num, fetchComicInfo(num)])
+                .sort(([a], [b]) => a - b)
+            setComicInfoArray(result)
+            console.log("result: ", result)
+
+        } else {
+            getComicIdsInRange(dateRange)
+                .then(comicRange => {
+                    setComicInfoArray(range(...comicRange).map(num => [num, fetchComicInfo(num)]))
+                })
+        }
+    }, [dateRange, latestComic, setComicInfoArray, viewingFavourites])
 
     // Preload the next/previous comic pages, if there are any.
     useEffect(() => {
@@ -62,6 +72,7 @@ function App() {
             dateRange={dateRange}
             onUpdateDateRange={setDateRange}
             validDateRange={getSimpleDateRange(firstComic.date, latestComic.date)}
+            onToggleFavourites={() => { setViewingFavourites(viewingFavs => !viewingFavs) }}
         />
         {openComic && <DetailView
             goBackHome={() => setOpenComic(null)}

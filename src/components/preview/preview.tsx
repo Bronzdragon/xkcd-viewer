@@ -17,7 +17,7 @@ const Preview: React.FC<PreviewType> = ({ info: infoPromise, onOpenComic }) => {
 
     useEffect(() => {
         infoPromise.then(info => setInfo(info))
-    }, [])
+    }, [infoPromise])
 
     if (!info) {
         return <div className={styles.container + ' ' + styles.throbber}>

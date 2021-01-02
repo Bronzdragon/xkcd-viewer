@@ -9,12 +9,12 @@ import styles from './navigator.module.css'
 
 type navigatorProps = {
     setMonthRange: (range: SimpleDateRange) => void
-    viewFavourites: () => void
+    onToggleViewFavourites: () => void
     dateRange: SimpleDateRange
     validDateRange: SimpleDateRange
 }
 
-const Navigator = ({ setMonthRange, viewFavourites, dateRange, validDateRange }: navigatorProps) => {
+const Navigator = ({ setMonthRange, onToggleViewFavourites, dateRange, validDateRange }: navigatorProps) => {
     const [useRange, setUseRange] = useState(false);
 
     return <div className={styles.container}>
@@ -29,7 +29,7 @@ const Navigator = ({ setMonthRange, viewFavourites, dateRange, validDateRange }:
         <span onClick={() => { setUseRange(use => !use) }}>
             &lt;Range toggle<input type="checkbox" checked={useRange} onChange={event => setUseRange(event.target.checked)} />&gt;
         </span>
-        <span onClick={viewFavourites}>&lt;⭐ View Favourites&gt;</span>
+        <span onClick={onToggleViewFavourites}>&lt;⭐ View Favourites&gt;</span>
     </div>
 }
 
