@@ -19,11 +19,6 @@ const Overview: React.FC<OverviewProps> = ({dateRange, comics, onOpenComic, onUp
         <div className={styles.container}>
             {comics.length === 0 ? "loading..." : ""}
             {comics.map(([id, info]) => <Preview key={id} info={info} onOpenComic={onOpenComic} />)}
-            {/* {comics.map(info => <Preview
-                key={info.number}
-                comicId={info.number}
-                onClick={() => { if (onOpenComic) { onOpenComic(info.number) } }}
-            />)} */}
         </div>
         <Navigator dateRange={dateRange}
             viewFavourites={() => console.log("Viewing favourites!")}
