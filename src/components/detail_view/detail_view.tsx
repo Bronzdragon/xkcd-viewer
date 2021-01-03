@@ -5,8 +5,6 @@ import Popover from '../popover/popover';
 import ComicHeader from './header/header';
 import ComicFooter from './footer/footer';
 
-import chevronLeft from './chevron-left.svg'
-import chevronRight from './chevron-right.svg'
 import styles from './detail_view.module.css'
 import { addFavourite, isFavourite, removeFavourite } from '../../favourites';
 
