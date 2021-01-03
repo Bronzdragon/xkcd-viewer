@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 // @ts-ignore
 import Picker from 'react-month-picker'
-import 'react-month-picker/css/month-picker.css'
+import 'react-month-picker/scss/month-picker.scss'
 import './month-selector.css'
 import { isSimpleDate } from '../../simple_date'
 import { SimpleDate, SimpleDateRange } from "../../simple_date"
