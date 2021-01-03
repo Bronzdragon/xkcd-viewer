@@ -34,14 +34,14 @@ const DetailView: React.FC<DetailViewProps> = ({ number, previousComic, nextComi
     }
 
     return <Popover open={true} onDismiss={goBackHome} >
-        <div className={styles.navigationContainer}>
-            <div className={styles.navIconContainer} ><img src={chevronLeft} onClick={previousComic} className={[styles.navigationIcon, styles.left].join(" ")} /></div>
             <div className={styles.detailContainer}>
-                <ComicHeader number={comicInfo.number} title={comicInfo.title} />
-                <img src={comicInfo.img} alt={comicInfo.title} title={comicInfo.alt} />
-                <ComicFooter comicId={comicInfo.number} isFavourite={favourite} onToggleFavourite={() => setFavourite(wasFavourite => !wasFavourite)} />
-            </div>
-            <div className={styles.navIconContainer} ><img src={chevronRight} onClick={nextComic} className={[styles.navigationIcon, styles.right].join(" ")} /></div>
+                <ComicHeader number={comicInfo.number} title={comicInfo.title} className={styles.header}/>
+                <div className={styles.imgContainer}>
+                    <div className={styles.left} onClick={previousComic} ></div>
+                    <img className={styles.img} src={comicInfo.img} alt={comicInfo.title} title={comicInfo.alt} />
+                    <div className={styles.right} onClick={nextComic}></div>
+                </div>
+                <ComicFooter comicId={comicInfo.number} isFavourite={favourite} onToggleFavourite={() => setFavourite(wasFavourite => !wasFavourite)} className={styles.footer} />
             
         </div>
     </Popover>

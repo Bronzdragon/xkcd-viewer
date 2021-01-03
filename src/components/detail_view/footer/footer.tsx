@@ -2,13 +2,14 @@ import FavouriteButton from './favourite_button';
 import styles from './footer.module.css';
 
 type ComicFooterType = {
-    comicId: number;
+    comicId: number
     isFavourite?: boolean
     onToggleFavourite?: () => void
+    className?: string
 }
 
-export default function ComicFooter({ comicId, isFavourite, onToggleFavourite }: ComicFooterType) {
-    return <div className={styles.links}>
+export default function ComicFooter({ comicId, isFavourite, onToggleFavourite, className='' }: ComicFooterType) {
+    return <div className={[styles.links, className].join(' ')}>
         <a href={getSiteLink(comicId)}>Source</a>
         <FavouriteButton isFavourite={isFavourite ?? false} onToggleFavourite={onToggleFavourite} />
         <a href={getExplainLink(comicId)}>Explaination</a>
