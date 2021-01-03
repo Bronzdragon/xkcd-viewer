@@ -29,20 +29,29 @@ const DetailView: React.FC<DetailViewProps> = ({ number, previousComic, nextComi
         favourite ? addFavourite(number) : removeFavourite(number)
     }, [favourite, number])
 
+    useEffect(() => { // Allow keyboard navigation.
+        if (!previousComic || !nextComic) { return; }
+        const handler = (event: KeyboardEvent) => {
+            if (event.key === "ArrowLeft") { previousComic() }
+            if (event.key === "ArrowRight") { nextComic() }
+        }
+        window.addEventListener('keydown', handler)
+        return () => window.removeEventListener('keydown', handler)
+    }, [previousComic, nextComic])
+
     if (!comicInfo) {
         return <div>"... loading comic."</div>
     }
 
     return <Popover open={true} onDismiss={goBackHome} >
-            <div className={styles.detailContainer}>
-                <ComicHeader number={comicInfo.number} title={comicInfo.title} className={styles.header}/>
-                <div className={styles.imgContainer}>
-                    <div className={styles.left} onClick={previousComic} ></div>
-                    <img className={styles.img} src={comicInfo.img} alt={comicInfo.title} title={comicInfo.alt} />
-                    <div className={styles.right} onClick={nextComic}></div>
-                </div>
-                <ComicFooter comicId={comicInfo.number} isFavourite={favourite} onToggleFavourite={() => setFavourite(wasFavourite => !wasFavourite)} className={styles.footer} />
-            
+        <div className={styles.detailContainer}>
+            <ComicHeader number={comicInfo.number} title={comicInfo.title} className={styles.header} />
+            <div className={styles.imgContainer}>
+                <div className={styles.left} onClick={previousComic} ></div>
+                <img className={styles.img} src={comicInfo.img} alt={comicInfo.title} title={comicInfo.alt} />
+                <div className={styles.right} onClick={nextComic}></div>
+            </div>
+            <ComicFooter comicId={comicInfo.number} isFavourite={favourite} onToggleFavourite={() => setFavourite(wasFavourite => !wasFavourite)} className={styles.footer} />
         </div>
     </Popover>
 }
