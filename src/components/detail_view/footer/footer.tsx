@@ -1,3 +1,4 @@
+import cs from 'cs';
 import FavouriteButton from './favourite_button';
 import styles from './footer.module.css';
 
@@ -9,7 +10,7 @@ type ComicFooterType = {
 }
 
 export default function ComicFooter({ comicId, isFavourite, onToggleFavourite, className='' }: ComicFooterType) {
-    return <div className={[styles.links, className].join(' ')}>
+    return <div className={cs(styles.links, className)}>
         <a href={getSiteLink(comicId)}>Source</a>
         <FavouriteButton isFavourite={isFavourite ?? false} onToggleFavourite={onToggleFavourite} />
         <a href={getExplainLink(comicId)}>Explaination</a>

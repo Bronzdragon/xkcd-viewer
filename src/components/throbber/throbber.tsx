@@ -1,4 +1,5 @@
 import React from "react"
+import cs from "cs"
 
 import styles from './throbber.module.css'
 
@@ -7,7 +8,7 @@ type ThrobberProps = {
     className?: string
 }
 
-const Throbber: React.FC<ThrobberProps> = ({ color, className = '' }) => <div className={styles.container + ' ' + className}>
+const Throbber: React.FC<ThrobberProps> = ({ color, className }) => <div className={cs(styles.container, className)}>
     <div style={{ background: color }} />
     <div style={{ background: color }} />
     <div style={{ background: color }} />
