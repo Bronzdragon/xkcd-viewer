@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import fetchComicInfo, { preloadImage, xkcdInfo } from './XKCDApiApi'
 import { SimpleDateRange, SimpleDate, getSimpleDateRange, dateToSimpleDate, simpleDateToDate, compareSimpleDate, adjustSimpleDate } from './simple_date'
+import ErrorView, {ErrorQueue} from './components/error-view/error-view'
 
 import Overview from './components/overview';
 import DetailView from './components/detail_view/detail_view';
@@ -65,7 +66,12 @@ function App() {
         return <div>...loading</div>
     }
 
+    const errorQueue = new ErrorQueue()
+    errorQueue.addItem("This is an error! 😱")
+    errorQueue.addItem("Another error! 😱")
+
     return <>
+        <ErrorView queue={errorQueue} />
         <Overview
             comics={comicInfoArray}
             onOpenComic={setOpenComic}

@@ -1,0 +1,15 @@
+.container {
+    display: flex;
+    flex-flow: column;
+    position: absolute;
+    width: 100%;
+}
+
+.errorItem {
+    background-color: salmon;
+    width: 100%;
+    
+}
+.errorItem button {
+    float: right;
+}
