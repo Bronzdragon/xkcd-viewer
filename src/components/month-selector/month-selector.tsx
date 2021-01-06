@@ -3,7 +3,7 @@ import { useRef } from 'react'
 import Picker from 'react-month-picker'
 import 'react-month-picker/scss/month-picker.scss'
 import './month-selector.css'
-import { isSimpleDate } from '../../simple_date'
+import { compareSimpleDate, isSimpleDate } from '../../simple_date'
 import { SimpleDate, SimpleDateRange } from "../../simple_date"
 import { MonthSelectorButton } from './month-selector-button'
 
@@ -12,18 +12,17 @@ export const monthNames = ['January', 'February', 'March', 'April', 'May', 'June
 type MonthSelectorProps = {
     onChangeMonth: (start: SimpleDate, end: SimpleDate) => void
     dateRange: SimpleDateRange
-    useRange?: boolean
     validDateRange: SimpleDateRange
 }
 
 let age = 0;
-function MonthSelector({ dateRange, onChangeMonth, useRange = false, validDateRange: {from: validFrom, to: validTo} }: MonthSelectorProps) {
+function MonthSelector({ dateRange, onChangeMonth, validDateRange: { from: validFrom, to: validTo } }: MonthSelectorProps) {
     const pickerRef = useRef<Picker>();
 
     return <Picker
         age={age++}
         ref={pickerRef}
-        value={useRange ? dateRange : dateRange.from}
+        value={compareSimpleDate(dateRange) === 0 ? dateRange.from : dateRange}
         lang={monthNames.map(monthName => monthName.slice(0, 3))}
         years={{ min: validFrom, max: validTo }}
         autoRange={1}
