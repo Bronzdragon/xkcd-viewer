@@ -12,6 +12,10 @@
     box-shadow: 0 0 4px rgb(188, 185, 185);
 }
 
+.comicLabel {
+    font-size: 0.9em;
+}
+
 .container .thumbnail {
     height: var(--element-size);
     margin: 0;
