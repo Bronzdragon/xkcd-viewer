@@ -9,6 +9,7 @@
     justify-content: space-evenly;
     align-items: center;
     background-color: white;
+    box-shadow: 0 0 4px rgb(188, 185, 185);
 }
 
 .container .thumbnail {
