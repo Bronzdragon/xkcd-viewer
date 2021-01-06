@@ -23,7 +23,7 @@ const DetailView: React.FC<DetailViewProps> = ({ number, previousComic, nextComi
     useEffect(() => {
         // Get the info for this comic.
         fetchComicInfo(number).then(setComicInfo).catch((err: Error) => errorQueue.addItem(`Could not get information for this comic. [${err.message}]`))
-    }, [number])
+    }, [number, errorQueue])
 
     useEffect(() => {
         favourite ? addFavourite(number) : removeFavourite(number)
