@@ -31,7 +31,7 @@ const jsonToXKCD = (json: string): xkcdInfo => {
 
 const getPageInfo = async (comicId?: number, preload = false): Promise<xkcdInfo> => {
     if (comicId !== undefined && comicId <= 0) {
-        throw new Error(`Cannot get comic with id ${comicId}.`)
+        throw new Error(`Could not get comic with id ${comicId}.`)
     }
 
     const url = getProxyURL(comicId)

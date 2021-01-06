@@ -7,20 +7,22 @@ import ComicFooter from './footer/footer';
 
 import styles from './detail_view.module.css'
 import { addFavourite, isFavourite, removeFavourite } from '../../favourites';
+import { ErrorQueue } from '../error-view/error-view';
 
 type DetailViewProps = {
     number: number
     previousComic?: () => void
     nextComic?: () => void
     goBackHome?: () => void
+    errorQueue: ErrorQueue
 }
 
-const DetailView: React.FC<DetailViewProps> = ({ number, previousComic, nextComic, goBackHome }) => {
+const DetailView: React.FC<DetailViewProps> = ({ number, previousComic, nextComic, goBackHome, errorQueue }) => {
     const [comicInfo, setComicInfo] = useState<xkcdInfo | null>(null);
     const [favourite, setFavourite] = useState(isFavourite(number));
     useEffect(() => {
         // Get the info for this comic.
-        fetchComicInfo(number).then(setComicInfo)
+        fetchComicInfo(number).then(setComicInfo).catch((err: Error) => errorQueue.addItem(`Could not get information for this comic. [${err.message}]`))
     }, [number])
 
     useEffect(() => {

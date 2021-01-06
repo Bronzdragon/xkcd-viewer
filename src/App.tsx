@@ -7,6 +7,8 @@ import Overview from './components/overview';
 import DetailView from './components/detail_view/detail_view';
 import getFavourites from './favourites';
 
+const errorQueue = new ErrorQueue()
+
 function App() {
     const [dateRange, setDateRange] = useState<SimpleDateRange>(getSimpleDateRange())
     const [latestComic, setLatestComic] = useState<xkcdInfo>()
@@ -15,25 +17,25 @@ function App() {
     const [comicInfoArray, setComicInfoArray] = useState<[number, Promise<xkcdInfo>][]>([])
     const [viewingFavourites, setViewingFavourites] = useState(false)
 
+    // Fetch
     useEffect(() => {
-        fetchComicInfo().then(info => setLatestComic(info))
-        fetchComicInfo(1).then(info => setFirstComic(info))
+        fetchComicInfo().then(info => setLatestComic(info)).catch((err: Error) => errorQueue.addItem(`Cannot load comic. [${err.message}]`))
+        fetchComicInfo(1).then(info => setFirstComic(info)).catch((err: Error) => errorQueue.addItem(`Cannot load latest comic. [${err.message}]`))
     }, [])
 
     useEffect(() => {
         if (!latestComic) return; // Still loading.
         if (viewingFavourites) {
-            console.log("Setting them to our favourites")
             const result = getFavourites()
                 .map<[number, Promise<xkcdInfo>]>(num => [num, fetchComicInfo(num)])
                 .sort(([a], [b]) => a - b)
             setComicInfoArray(result)
-            console.log("result: ", result)
-
         } else {
             getComicIdsInRange(dateRange)
                 .then(comicRange => {
                     setComicInfoArray(range(...comicRange).map(num => [num, fetchComicInfo(num)]))
+                }).catch((err: Error) => {
+                    errorQueue.addItem(`Couldn't get all the comics in this date range. [${err.message}]`)
                 })
         }
     }, [dateRange, latestComic, setComicInfoArray, viewingFavourites])
@@ -41,34 +43,48 @@ function App() {
     // Preload the next/previous comic pages, if there are any.
     useEffect(() => {
         if (!openComic) return;
-        if (openComic + 1 <= (latestComic?.number ?? 0)) { fetchComicInfo(openComic + 1).then(({ img }) => preloadImage(img)) }
-        if (openComic - 1 >= 1) { fetchComicInfo(openComic - 1).then(({ img }) => preloadImage(img)) }
+        if (openComic + 1 <= (latestComic?.number ?? 0)) {
+            fetchComicInfo(openComic + 1)
+                .then(({ img }) => preloadImage(img))
+                .catch((err: Error) => errorQueue.addItem(`Could not preload next image. [${err.message}]`))
+        }
+        if (openComic - 1 >= 1) {
+            fetchComicInfo(openComic - 1)
+                .then(({ img }) => preloadImage(img))
+                .catch((err: Error) => errorQueue.addItem(`Could not preload previous image. [${err.message}]`))
+        }
     }, [openComic, latestComic])
 
     // Check if our openComic value exceeds our current date range. If so, adjust the dateRange to include it
     useEffect(() => {
         if (!openComic) return;
-        fetchComicInfo(openComic).then(info => {
-            const comicMonth = dateToSimpleDate(info.date)
-            if (compareSimpleDate(comicMonth, dateRange.from) < 0) {
-                // If the date is before our current range
-                setDateRange(range => getSimpleDateRange(adjustSimpleDate(range.from, -1), range.to))
-            }
-            if (compareSimpleDate(comicMonth, dateRange.to) > 0) {
-                // If the date is after our current range
-                setDateRange(range => getSimpleDateRange(range.from, adjustSimpleDate(range.to, 1)))
-            }
-        })
+        fetchComicInfo(openComic)
+            .then(info => {
+                const comicMonth = dateToSimpleDate(info.date)
+                if (compareSimpleDate(comicMonth, dateRange.from) < 0) {
+                    // If the date is before our current range
+                    setDateRange(range => getSimpleDateRange(adjustSimpleDate(range.from, -1), range.to))
+                }
+                if (compareSimpleDate(comicMonth, dateRange.to) > 0) {
+                    // If the date is after our current range
+                    setDateRange(range => getSimpleDateRange(range.from, adjustSimpleDate(range.to, 1)))
+                }
+            })
+            .catch((err: Error) => {
+                errorQueue.addItem(`Encountered an error updating this page. [${err.message}]` )
+            })
     }, [openComic, dateRange, setDateRange])
 
     if (!latestComic || !firstComic) {
         // No comics loaded yet...
-        return <div>...loading</div>
+        return <div>
+            <ErrorView queue={errorQueue} />
+            ...loading
+        </div>
     }
 
-    const errorQueue = new ErrorQueue()
-    errorQueue.addItem("This is an error! 😱")
-    errorQueue.addItem("Another error! 😱")
+    // errorQueue.addItem("This is an error! 😱")
+    // errorQueue.addItem("Another error! 😱")
 
     return <>
         <ErrorView queue={errorQueue} />
@@ -81,6 +97,7 @@ function App() {
             onToggleFavourites={() => { setViewingFavourites(viewingFavs => !viewingFavs) }}
         />
         {openComic && <DetailView
+            errorQueue={errorQueue}
             goBackHome={() => setOpenComic(null)}
             number={openComic}
             nextComic={() => setOpenComic(num => Math.min(latestComic.number, (num ?? 0) + 1))}

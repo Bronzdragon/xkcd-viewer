@@ -16,7 +16,7 @@ export default function ErrorView({ queue }: ErrorViewProps) {
 
     return <div className={styles.container}>
         {messages.map(({ message, id }) => <span key={id} className={styles.errorItem}>
-            {`${id}: ${message}`}<button value="x" onClick={() => { queue.removeItem(id) }}>x</button>
+            {message}<button value="x" onClick={() => { queue.removeItem(id) }}>x</button>
         </span>)}
     </div>
 }
