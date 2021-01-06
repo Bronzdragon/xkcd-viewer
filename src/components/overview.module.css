@@ -1,9 +1,11 @@
 .container {
-    border: solid red;
     display: flex;
     flex-wrap: wrap;
+    height: 100vh;
+    justify-content: center;
+    align-items: flex-start;
 }
 
 .container * {
-    margin: 0 10px;
+    margin: 0.5em;
 }

@@ -95,11 +95,11 @@ function App() {
             onToggleFavourites={() => { setViewingFavourites(viewingFavs => !viewingFavs) }}
         />
         {openComic && <DetailView
-            errorQueue={errorQueue}
-            goBackHome={() => setOpenComic(null)}
             number={openComic}
             nextComic={() => setOpenComic(num => Math.min(latestComic.number, (num ?? 0) + 1))}
             previousComic={() => setOpenComic(num => Math.max(1, (num ?? 0) - 1))}
+            goBackHome={() => setOpenComic(null)}
+            errorQueue={errorQueue}
         />}
     </>
 }

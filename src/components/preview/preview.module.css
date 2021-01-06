@@ -1,11 +1,14 @@
+:root {
+    --element-size: calc(150px + 5vw);
+}
+
 .container {
-    --element-size: calc(50px + 15vw);
     width: var(--element-size);
-    border: solid 2px grey;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
+    background-color: white;
 }
 
 .container .thumbnail {
@@ -17,4 +20,8 @@
     width: var(--element-size);
 }
 
-.comicLabel {}
+.comicLabel img {
+    /* Favourites star */
+    margin: 0 5px;
+    float: right;
+}
