@@ -13,6 +13,7 @@
 
 .container .thumbnail {
     height: var(--element-size);
+    margin: 0;
 }
 
 .throbber {

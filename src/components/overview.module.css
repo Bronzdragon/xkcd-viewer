@@ -1,7 +1,6 @@
 .container {
     display: flex;
-    flex-wrap: wrap;
-    height: 100vh;
+    flex-flow: row wrap;
     justify-content: center;
     align-items: flex-start;
 }

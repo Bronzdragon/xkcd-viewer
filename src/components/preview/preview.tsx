@@ -25,8 +25,8 @@ const Preview: React.FC<PreviewType> = ({ info: infoPromise, onOpenComic }) => {
 
     if (!info) {
         return <div className={styles.container + ' ' + styles.throbber}>
-            <Throbber color="hsla(0, 0%, 0%, 0.2)" />
-            loading...
+            <span className={styles.comicLabel} >loading...</span>
+            <Throbber color="hsla(0, 0%, 0%, 0.2)" className={styles.thumbnail} />
         </div>
     }
 
