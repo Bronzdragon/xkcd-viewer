@@ -1,4 +1,4 @@
-import React from 'react'
+import { FC } from 'react'
 import { xkcdInfo } from '../XKCDApiApi'
 import { SimpleDateRange } from '../simple_date'
 
@@ -14,16 +14,18 @@ type OverviewProps = {
     dateRange: SimpleDateRange
     validDateRange: SimpleDateRange
     comics: [number, Promise<xkcdInfo>][]
-
+    viewingFavourites?: boolean
 }
 
-const Overview: React.FC<OverviewProps> = ({ dateRange, comics, onOpenComic, onUpdateDateRange, onToggleFavourites, validDateRange }: OverviewProps) => {
+const Overview: FC<OverviewProps> = ({ dateRange, comics, onOpenComic, onUpdateDateRange, onToggleFavourites, validDateRange, viewingFavourites }: OverviewProps) => {
     return <>
         <div className={styles.container}>
             {comics.length === 0 ? "loading..." : ""}
             {comics.map(([id, info]) => <Preview key={id} info={info} onOpenComic={onOpenComic} />)}
         </div>
-        <Navigator dateRange={dateRange}
+        <Navigator
+            viewingFavourites={viewingFavourites}
+            dateRange={dateRange}
             onToggleViewFavourites={() => onToggleFavourites && onToggleFavourites()}
             setMonthRange={(range) => onUpdateDateRange && onUpdateDateRange(range)}
             validDateRange={validDateRange}

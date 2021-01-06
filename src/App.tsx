@@ -77,14 +77,11 @@ function App() {
 
     if (!latestComic || !firstComic) {
         // No comics loaded yet...
-        return <div>
+        return <>
             <ErrorView queue={errorQueue} />
             ...loading
-        </div>
+        </>
     }
-
-    // errorQueue.addItem("This is an error! 😱")
-    // errorQueue.addItem("Another error! 😱")
 
     return <>
         <ErrorView queue={errorQueue} />
@@ -92,8 +89,9 @@ function App() {
             comics={comicInfoArray}
             onOpenComic={setOpenComic}
             dateRange={dateRange}
-            onUpdateDateRange={setDateRange}
             validDateRange={getSimpleDateRange(firstComic.date, latestComic.date)}
+            onUpdateDateRange={setDateRange}
+            viewingFavourites={viewingFavourites}
             onToggleFavourites={() => { setViewingFavourites(viewingFavs => !viewingFavs) }}
         />
         {openComic && <DetailView
