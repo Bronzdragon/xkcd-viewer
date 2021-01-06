@@ -30,14 +30,14 @@ const DetailView: React.FC<DetailViewProps> = ({ number, previousComic, nextComi
     }, [favourite, number])
 
     useEffect(() => { // Allow keyboard navigation.
-        if (!previousComic || !nextComic) { return; }
         const handler = (event: KeyboardEvent) => {
-            if (event.key === "ArrowLeft") { previousComic() }
-            if (event.key === "ArrowRight") { nextComic() }
+            if (event.key === "ArrowLeft" && previousComic) { previousComic() }
+            if (event.key === "ArrowRight" && nextComic) { nextComic() }
+            if (event.key === "Escape" && goBackHome) { goBackHome() }
         }
         window.addEventListener('keydown', handler)
         return () => window.removeEventListener('keydown', handler)
-    }, [previousComic, nextComic])
+    }, [previousComic, nextComic, goBackHome])
 
     if (!comicInfo) {
         return <div>"... loading comic."</div>
