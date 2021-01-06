@@ -5,7 +5,7 @@ import Throbber from "../throbber/throbber"
 
 import styles from './preview.module.css'
 import Star from "../star/star"
-import { isFavourite } from "../../favourites"
+import { isFavourite, addFavourite, removeFavourite } from "../../favourites"
 
 type PreviewType = {
     info: Promise<xkcdInfo>
@@ -14,9 +14,13 @@ type PreviewType = {
 
 const Preview: React.FC<PreviewType> = ({ info: infoPromise, onOpenComic }) => {
     const [info, setInfo] = useState<xkcdInfo>()
+    const [favourite, setFavourite] = useState(false)
 
     useEffect(() => {
-        infoPromise.then(info => setInfo(info))
+        infoPromise.then(info => {
+            setInfo(info)
+            setFavourite(isFavourite(info.number))
+        })
     }, [infoPromise])
 
     if (!info) {
@@ -26,9 +30,9 @@ const Preview: React.FC<PreviewType> = ({ info: infoPromise, onOpenComic }) => {
         </div>
     }
 
-    return <div className={styles.container} onClick={() => onOpenComic && onOpenComic(info.number)}>
-        <span>{info.title} <Star filled={isFavourite(info.number)} /></span>
-        <Thumbnail className={styles.thumbnail} comicInfo={info} />
+    return <div className={styles.container} >
+        <span onClick={() => { (favourite ? removeFavourite : addFavourite)(info.number); setFavourite(!favourite) }}>{info.title} <Star filled={favourite} /></span>
+        <Thumbnail className={styles.thumbnail} comicInfo={info} onClick={() => onOpenComic && onOpenComic(info.number)} />
     </div>
 }
 
