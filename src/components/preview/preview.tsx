@@ -31,7 +31,10 @@ const Preview: React.FC<PreviewType> = ({ info: infoPromise, onOpenComic }) => {
     }
 
     return <div className={styles.container} >
-        <span onClick={() => { (favourite ? removeFavourite : addFavourite)(info.number); setFavourite(!favourite) }}>{info.title} <Star filled={favourite} /></span>
+        <span className={styles.comicLabel} >
+            {info.title}
+            <Star filled={favourite} onClick={() => { (favourite ? removeFavourite : addFavourite)(info.number); setFavourite(!favourite) }} />
+        </span>
         <Thumbnail className={styles.thumbnail} comicInfo={info} onClick={() => onOpenComic && onOpenComic(info.number)} />
     </div>
 }
