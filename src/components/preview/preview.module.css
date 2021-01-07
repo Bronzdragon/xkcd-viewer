@@ -10,6 +10,7 @@
     align-items: center;
     background-color: white;
     box-shadow: 0 0 4px rgb(188, 185, 185);
+    border-radius: 10px; /* Don't forget to update the thumbnail */
 }
 
 .comicLabel {
@@ -19,6 +20,9 @@
 .container .thumbnail {
     height: var(--element-size);
     margin: 0;
+
+    /* Don't forget to update the container */
+    border-radius: 0 0 5px 5px;
 }
 
 .throbber {
