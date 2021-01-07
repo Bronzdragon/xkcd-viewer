@@ -59,7 +59,7 @@ function App() {
 
     // Check if our openComic value exceeds our current date range. If so, adjust the dateRange to include it
     useEffect(() => {
-        if (!openComic) return;
+        if (!openComic || viewingFavourites) return;
         fetchComicInfo(openComic)
             .then(info => {
                 const comicMonth = dateToSimpleDate(info.date)
@@ -75,7 +75,7 @@ function App() {
             .catch((err: Error) => {
                 errorQueue.addItem(`Encountered an error updating this page. [${err.message}]` )
             })
-    }, [openComic, dateRange, setDateRange])
+    }, [openComic, dateRange, setDateRange, viewingFavourites])
 
     if (!latestComic || !firstComic) {
         // No comics loaded yet...
