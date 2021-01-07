@@ -4,6 +4,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: whitesmoke;
+  
+  overflow: hidden; /* The month selector adds empty space at the bottom, for some reason? */
 }
 
 code {

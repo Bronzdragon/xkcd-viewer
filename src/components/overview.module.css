@@ -3,6 +3,10 @@
     flex-flow: row wrap;
     justify-content: center;
     align-items: flex-start;
+    align-content: flex-start;
+
+    overflow: auto;
+    flex-grow: 1;
 }
 
 .container * {

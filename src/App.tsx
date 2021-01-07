@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import fetchComicInfo, { preloadImage, xkcdInfo } from './XKCDApiApi'
 import { SimpleDateRange, SimpleDate, getSimpleDateRange, dateToSimpleDate, simpleDateToDate, compareSimpleDate, adjustSimpleDate } from './simple_date'
-import ErrorView, {ErrorQueue} from './components/error-view/error-view'
+import getFavourites from './favourites';
 
+import ErrorView, {ErrorQueue} from './components/error-view/error-view'
 import Overview from './components/overview';
 import DetailView from './components/detail_view/detail_view';
-import getFavourites from './favourites';
+
+import styles from './App.module.css'
 
 const errorQueue = new ErrorQueue()
 
@@ -83,7 +85,7 @@ function App() {
         </>
     }
 
-    return <>
+    return <div className={styles.container}>
         <ErrorView queue={errorQueue} />
         <Overview
             comics={comicInfoArray}
@@ -101,7 +103,7 @@ function App() {
             goBackHome={() => setOpenComic(null)}
             errorQueue={errorQueue}
         />}
-    </>
+    </div>
 }
 
 export default App;
