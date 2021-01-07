@@ -19,7 +19,7 @@ function App() {
     const [comicInfoArray, setComicInfoArray] = useState<[number, Promise<xkcdInfo>][]>([])
     const [viewingFavourites, setViewingFavourites] = useState(false)
 
-    // Fetch
+    // Fetch first and last comic
     useEffect(() => {
         fetchComicInfo().then(info => setLatestComic(info)).catch((err: Error) => errorQueue.addItem(`Cannot load comic. [${err.message}]`))
         fetchComicInfo(1).then(info => setFirstComic(info)).catch((err: Error) => errorQueue.addItem(`Cannot load latest comic. [${err.message}]`))
