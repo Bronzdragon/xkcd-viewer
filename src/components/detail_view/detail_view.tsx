@@ -12,15 +12,13 @@ import cs from 'cs';
 
 const DetailView: React.FC<DetailViewProps> = ({ number, previousComic, nextComic, goBackHome, errorQueue }) => {
     const [comicInfo, setComicInfo] = useState<xkcdInfo | null>(null);
-    const [favourite, setFavourite] = useState(isFavourite(number));
+    // eslint-disable-next-line
+    const [_, reRender] = useState(true);
+    const favourite = isFavourite(number)
     useEffect(() => {
         // Get the info for this comic.
         fetchComicInfo(number).then(setComicInfo).catch((err: Error) => errorQueue.addItem(`Could not get information for this comic. [${err.message}]`))
     }, [number, errorQueue])
-
-    useEffect(() => {
-        favourite ? addFavourite(number) : removeFavourite(number)
-    }, [favourite, number])
 
     useEffect(() => { // Allow keyboard navigation.
         const handler = (event: KeyboardEvent) => {
@@ -38,13 +36,22 @@ const DetailView: React.FC<DetailViewProps> = ({ number, previousComic, nextComi
 
     return <Popover open={true} onDismiss={goBackHome} >
         <div className={styles.detailContainer}>
-            <ComicHeader number={comicInfo.number} title={comicInfo.title} className={styles.header} />
+            <ComicHeader
+                number={comicInfo.number}
+                title={comicInfo.title}
+                isFavourite={favourite}
+                onToggleFavourite={() => {
+                    (favourite ? removeFavourite : addFavourite)(number)
+                    reRender(bool => !bool)
+                }}
+                className={styles.header}
+            />
             <div className={styles.imgContainer}>
                 <div className={cs(styles.left, styles.nav)} onClick={previousComic} ></div>
                 <img className={styles.img} src={comicInfo.img} alt={comicInfo.title} title={comicInfo.alt} />
                 <div className={cs(styles.right, styles.nav)} onClick={nextComic}></div>
             </div>
-            <ComicFooter comicId={comicInfo.number} isFavourite={favourite} onToggleFavourite={() => setFavourite(wasFavourite => !wasFavourite)} className={styles.footer} />
+            <ComicFooter comicInfo={comicInfo} className={styles.footer} />
         </div>
     </Popover>
 }

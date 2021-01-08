@@ -1,16 +1,13 @@
 .links {
-
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-evenly;
     width: 100%;
 }
 
-.favourite{
-    background-color: white;
-    border-style: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.1);
+.altContainer {
+    color: dimgray;
+    overflow-wrap: normal;
+    max-width: 600px;
+    margin: 20px 40px;
 }

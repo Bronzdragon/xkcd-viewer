@@ -13,5 +13,7 @@
 }
 
 .content {
-    margin-top: 10em;
+    /* fix for click handler. */
+    height: min-content;
+    margin: 3em 0;
 }

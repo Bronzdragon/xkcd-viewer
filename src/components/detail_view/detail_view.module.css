@@ -2,18 +2,19 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+
     background-color: whitesmoke;
+    color: lightgray;
+
     box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.4);
     border-radius: 20px;
-    color: lightgray;
 }
 
 .header {
     line-height: 3;
 }
 .footer {
-    margin-top: 2em;
-    margin-bottom: 3em;
+    margin: 1.5em 0;
 }
 
 .imgContainer{
@@ -25,7 +26,6 @@ img{
     margin: 0;
 }
 
-/* .left and .right are the navigation classes that overlay the comic */
 .nav {
     box-sizing: border-box;
     width: 30%;
