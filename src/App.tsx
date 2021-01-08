@@ -92,7 +92,7 @@ function App() {
             onOpenComic={setOpenComic}
             dateRange={dateRange}
             validDateRange={getSimpleDateRange(firstComic.date, latestComic.date)}
-            onUpdateDateRange={setDateRange}
+            onUpdateDateRange={(range) => {setDateRange(range); setComicInfoArray([])} }
             viewingFavourites={viewingFavourites}
             onToggleFavourites={() => { setViewingFavourites(viewingFavs => !viewingFavs) }}
         />
