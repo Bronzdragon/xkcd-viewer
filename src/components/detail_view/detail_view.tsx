@@ -8,14 +8,7 @@ import ComicFooter from './footer/footer';
 import styles from './detail_view.module.css'
 import { addFavourite, isFavourite, removeFavourite } from '../../favourites';
 import { ErrorQueue } from '../error-view/error-view';
-
-type DetailViewProps = {
-    number: number
-    previousComic?: () => void
-    nextComic?: () => void
-    goBackHome?: () => void
-    errorQueue: ErrorQueue
-}
+import cs from 'cs';
 
 const DetailView: React.FC<DetailViewProps> = ({ number, previousComic, nextComic, goBackHome, errorQueue }) => {
     const [comicInfo, setComicInfo] = useState<xkcdInfo | null>(null);
@@ -47,9 +40,9 @@ const DetailView: React.FC<DetailViewProps> = ({ number, previousComic, nextComi
         <div className={styles.detailContainer}>
             <ComicHeader number={comicInfo.number} title={comicInfo.title} className={styles.header} />
             <div className={styles.imgContainer}>
-                <div className={styles.left} onClick={previousComic} ></div>
+                <div className={cs(styles.left, styles.nav)} onClick={previousComic} ></div>
                 <img className={styles.img} src={comicInfo.img} alt={comicInfo.title} title={comicInfo.alt} />
-                <div className={styles.right} onClick={nextComic}></div>
+                <div className={cs(styles.right, styles.nav)} onClick={nextComic}></div>
             </div>
             <ComicFooter comicId={comicInfo.number} isFavourite={favourite} onToggleFavourite={() => setFavourite(wasFavourite => !wasFavourite)} className={styles.footer} />
         </div>
@@ -57,3 +50,11 @@ const DetailView: React.FC<DetailViewProps> = ({ number, previousComic, nextComi
 }
 
 export default DetailView
+
+type DetailViewProps = {
+    number: number
+    previousComic?: () => void
+    nextComic?: () => void
+    goBackHome?: () => void
+    errorQueue: ErrorQueue
+}

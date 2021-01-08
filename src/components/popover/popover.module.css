@@ -1,13 +1,17 @@
 .background {
-    width: 100vw;
-    height: 100vh;
-    position: fixed;
-    left: 0;
-    top: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-
-
+    overflow: auto;
     display: flex;
     justify-content: center;
-    align-items: center;
+    
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.content {
+    margin-top: 10em;
 }

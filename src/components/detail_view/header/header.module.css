@@ -1,9 +1,17 @@
 .number::before {
     content: '#';
+    font-size: 0.8em;
+}
+
+.number{
+    color: rgb(41, 41, 41);
+    margin: 0 0.2em;
 }
 
 .title {
+    margin: 0 0.2em;
+
     font-size: x-large;
     font-weight: bold;
-    color: rgb(149, 58, 58);
+    color: rgb(41, 41, 41);
 }

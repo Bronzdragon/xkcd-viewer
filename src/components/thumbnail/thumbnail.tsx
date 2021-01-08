@@ -1,12 +1,12 @@
 import React from 'react';
 import { xkcdInfo } from '../../XKCDApiApi'
-import cs from 'cs';
+import cs, { csType } from 'cs';
 
 import styles from './thumbnail.module.css'
 
 export type ThumbnailType = {
     comicInfo: xkcdInfo
-    className?: string
+    className?: csType
     onClick?: (event: React.MouseEvent<HTMLImageElement, MouseEvent>) => void
 }
 

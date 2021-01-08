@@ -1,13 +1,13 @@
 import full_star from './full_star.svg'
 import empty_star from './empty_star.svg'
 import styles from './star.module.css'
-import cs from 'cs'
+import cs, { csType } from 'cs'
 
 type StarProps = {
     filled: boolean
     size?: number
     onClick?: (event: React.MouseEvent<HTMLImageElement, MouseEvent>) => void
-    className?: string
+    className?: csType
 }
 
 const starEnumToPictureMap = new Map([

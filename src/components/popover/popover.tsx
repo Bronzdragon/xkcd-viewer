@@ -23,6 +23,6 @@ export default function Popover({ open = false, onDismiss, children }: PopoverPr
         return null;
 
     return <div className={styles.background}>
-        <span ref={ref}>{children} </span>
+        <div ref={ref} className={styles.content}>{children} </div>
     </div>;
 }

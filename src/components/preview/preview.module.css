@@ -1,16 +1,18 @@
 :root {
     --element-size: calc(150px + 5vw);
+    --rounding-amount: 20px;
 }
 
 .container {
-    width: var(--element-size);
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
+    width: var(--element-size);
+    
     background-color: white;
-    box-shadow: 0 0 4px rgb(188, 185, 185);
-    border-radius: 10px; /* Don't forget to update the thumbnail */
+    box-shadow: 0 0 4px 1px rgb(188, 185, 185);
+    border-radius: var(--rounding-amount);
 }
 
 .comicLabel {
@@ -20,9 +22,7 @@
 .container .thumbnail {
     height: var(--element-size);
     margin: 0;
-
-    /* Don't forget to update the container */
-    border-radius: 0 0 5px 5px;
+    border-radius: 0 0 var(--rounding-amount) var(--rounding-amount);
 }
 
 .throbber {
