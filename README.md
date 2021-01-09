@@ -1,12 +1,19 @@
-# Getting Started with Create React App
+# XKCD-viewer
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**You can see a live demo of this project here.**
 
-## Available Scripts
+## Development
 
+To install the dependencies using NPM:\
+`npm install`
+
+Using Yarn:\
+`yarn install`
+
+### Available Scripts
 In the project directory, you can run:
 
-### `yarn start`
+#### `npm start` or `yarn start`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
@@ -14,33 +21,28 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
+#### `npm build` or `yarn build`
 
 Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+It correctly bundles React in production mode and optimises the build for the best performance.
 
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `yarn eject`
-
+#### `npm eject` or `yarn eject`
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+This application is buit with `create-react-app`, and thus hides a lot of configuration. Before ejecting to expose this, I reccomend researching to see if this application can be configured in some other way.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Limitations
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Because the XKCD API does not provide CORS headers, it must be accessed via  a proxy. For a full project, I would build a proxy under my own control, but for this project, I'm making use of [Heroku's CORS-Anywhere](https://cors-anywhere.herokuapp.com/) public API.
 
-## Learn More
+## Special thanks:
+Facebook for [React](https://github.com/facebook/react), and [create-react-app](https://github.com/facebook/create-react-app).
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+User 'nickeljew' for [react-month-picker](https://github.com/nickeljew/react-month-picker).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Our star assets from Wikmedia Commons [Empty](https://commons.wikimedia.org/wiki/File:Empty_Star.svg) and [Filled](https://commons.wikimedia.org/wiki/File:Full_Star_Yellow.svg).
