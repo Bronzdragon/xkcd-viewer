@@ -1,6 +1,6 @@
 # XKCD-viewer
 
-**You can see a live demo of this project here.**
+**You can see [a live demo of this project here](https://bronzdragon.github.io/xkcd-viewer/).**
 
 ## Development
 
@@ -20,6 +20,10 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
+
+#### `npm deploy` or `yarn deploy`
+
+Automatically builds the application and deploys it to github pages.
 
 #### `npm build` or `yarn build`
 
