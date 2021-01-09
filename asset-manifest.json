@@ -1,0 +1,28 @@
+{
+  "files": {
+    "main.css": "/xkcd-viewer/static/css/main.57d926b2.chunk.css",
+    "main.js": "/xkcd-viewer/static/js/main.a596a3bc.chunk.js",
+    "main.js.map": "/xkcd-viewer/static/js/main.a596a3bc.chunk.js.map",
+    "runtime-main.js": "/xkcd-viewer/static/js/runtime-main.bd80bb60.js",
+    "runtime-main.js.map": "/xkcd-viewer/static/js/runtime-main.bd80bb60.js.map",
+    "static/css/2.8146d676.chunk.css": "/xkcd-viewer/static/css/2.8146d676.chunk.css",
+    "static/js/2.185f9d6f.chunk.js": "/xkcd-viewer/static/js/2.185f9d6f.chunk.js",
+    "static/js/2.185f9d6f.chunk.js.map": "/xkcd-viewer/static/js/2.185f9d6f.chunk.js.map",
+    "static/js/3.305f6ed8.chunk.js": "/xkcd-viewer/static/js/3.305f6ed8.chunk.js",
+    "static/js/3.305f6ed8.chunk.js.map": "/xkcd-viewer/static/js/3.305f6ed8.chunk.js.map",
+    "index.html": "/xkcd-viewer/index.html",
+    "static/css/2.8146d676.chunk.css.map": "/xkcd-viewer/static/css/2.8146d676.chunk.css.map",
+    "static/css/main.57d926b2.chunk.css.map": "/xkcd-viewer/static/css/main.57d926b2.chunk.css.map",
+    "static/js/2.185f9d6f.chunk.js.LICENSE.txt": "/xkcd-viewer/static/js/2.185f9d6f.chunk.js.LICENSE.txt",
+    "static/media/chevron.78647bbb.svg": "/xkcd-viewer/static/media/chevron.78647bbb.svg",
+    "static/media/empty_star.51ac6047.svg": "/xkcd-viewer/static/media/empty_star.51ac6047.svg",
+    "static/media/full_star.7bef184c.svg": "/xkcd-viewer/static/media/full_star.7bef184c.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.bd80bb60.js",
+    "static/css/2.8146d676.chunk.css",
+    "static/js/2.185f9d6f.chunk.js",
+    "static/css/main.57d926b2.chunk.css",
+    "static/js/main.a596a3bc.chunk.js"
+  ]
+}
